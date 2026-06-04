@@ -1029,16 +1029,498 @@
     Keep reading. Keep wondering. 🌿
   </p>
   <p style="margin-top:16px;font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--text-light);letter-spacing:1px;">— Made with 💛 just for you</p>
-  <div style="font-size:1.4rem;margin-top:22px;">🌸 ✨ 📖</div>
+  <div style="font-size:1.4rem;margin-top:22px;">🌸 <span id="secretStar" class="secret-star" title="...">✦</span> 📖</div>
 </footer>
 
 <!-- Back to top -->
 <a href="#" class="back-top" id="backTop" title="Back to top">↑</a>
 
+<!-- ══════ SECRET EASTER EGG ══════ -->
+<style>
+  .secret-star {
+    display: inline-block;
+    font-size: 1rem;
+    color: var(--tan);
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.4s, transform 0.4s, text-shadow 0.4s;
+    margin: 0 4px;
+  }
+  .secret-star:hover {
+    color: #c9a84c;
+    transform: rotate(20deg) scale(1.4);
+    text-shadow: 0 0 10px rgba(201,168,76,0.5);
+  }
+
+  /* ── FULL SCREEN TAKEOVER ── */
+  #eggScreen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0f0c0a;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.8s ease;
+    overflow: hidden;
+    text-align: center;
+    padding: 32px;
+  }
+  #eggScreen.active {
+    opacity: 1; pointer-events: all;
+  }
+
+  /* Floating stars canvas */
+  #eggCanvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* Content */
+  .egg-content {
+    position: relative; z-index: 2;
+    max-width: 560px;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  #eggScreen.active .egg-content {
+    opacity: 1; transform: translateY(0);
+    transition: opacity 1s ease 0.6s, transform 1s ease 0.6s;
+  }
+
+  .egg-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: #c9a84c;
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+
+  .egg-big-star {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 20px;
+    animation: eggFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 18px rgba(201,168,76,0.6));
+  }
+  @keyframes eggFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%       { transform: translateY(-10px) rotate(8deg); }
+  }
+
+  .egg-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: #fdf6ee;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .egg-heading em {
+    font-style: italic;
+    background: linear-gradient(135deg, #e8a598, #c9a84c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .egg-sub {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(253,246,238,0.55);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  /* poem preview lines */
+  .egg-preview {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+  .egg-preview::before {
+    content: '"';
+    position: absolute; top: -10px; left: 14px;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; color: rgba(201,168,76,0.15);
+    line-height: 1;
+  }
+  .egg-preview-line {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.98rem;
+    font-style: italic;
+    color: rgba(253,246,238,0.8);
+    line-height: 1.9;
+    display: block;
+  }
+  .egg-preview-line.indent { padding-left: 24px; }
+
+  /* CTA button */
+  .egg-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #c9847a, #c9a84c);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 15px 36px;
+    border-radius: 40px;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(201,132,122,0.35);
+    transition: transform 0.25s, box-shadow 0.25s;
+    margin-bottom: 20px;
+  }
+  .egg-cta:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(201,132,122,0.5);
+  }
+  .egg-cta-arrow {
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+  }
+  .egg-cta:hover .egg-cta-arrow { transform: translateX(4px); }
+
+  .egg-dismiss {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(253,246,238,0.3);
+    background: none; border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+    margin-top: 4px;
+  }
+  .egg-dismiss:hover { color: rgba(253,246,238,0.6); }
+
+  /* confetti burst particles */
+  .confetti-piece {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 10000;
+    animation: confettiFall var(--dur) ease-in forwards;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translate(0,0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(720deg); opacity: 0; }
+  }
+</style>
+
+<!-- Full-screen egg takeover -->
+<div id="eggScreen">
+  <canvas id="eggCanvas"></canvas>
+
+  <!-- STAGE 1: Intro card -->
+  <div class="egg-content" id="eggStage1">
+    <div class="egg-eyebrow">✦ you found it ✦</div>
+    <span class="egg-big-star">✦</span>
+    <h2 class="egg-heading">Something was written<br/><em>just for you, Divya</em></h2>
+    <p class="egg-sub">Hidden at the bottom of everything.<br/>Waiting for someone curious enough to find it.</p>
+    <div class="egg-preview">
+      <span class="egg-preview-line">She does not look at the world the way</span>
+      <span class="egg-preview-line">the world expects to be looked at —</span>
+      <span class="egg-preview-line indent">straight on, efficiently,</span>
+      <span class="egg-preview-line indent">with somewhere else to be.</span>
+      <span class="egg-preview-line">&nbsp;</span>
+      <span class="egg-preview-line">She looks at it the way you look</span>
+      <span class="egg-preview-line">at something you are afraid to lose.</span>
+    </div>
+    <button class="egg-cta" id="openPoemBtn">
+      Read the full poem <span class="egg-cta-arrow">→</span>
+    </button>
+    <button class="egg-dismiss" id="eggDismiss">not now, close this</button>
+  </div>
+
+  <!-- STAGE 2: Full poem inline -->
+  <div class="egg-content egg-poem-wrap" id="eggStage2" style="display:none; max-width:640px; text-align:left; overflow-y:auto; max-height:90vh; padding-right:8px;">
+    <div style="text-align:center; margin-bottom:36px;">
+      <div class="egg-eyebrow">✦ written for her ✦</div>
+      <h2 class="egg-heading" style="font-size:clamp(1.6rem,4vw,2.6rem);">She Who Carries<br/><em>Infinite Things</em></h2>
+      <p class="egg-sub" style="margin-bottom:0;">a poem for Divya</p>
+    </div>
+
+    <div class="poem-stanza">
+      <div class="poem-num">I.</div>
+      <span class="poem-line">She does not look at the world the way</span>
+      <span class="poem-line">the world expects to be looked at —</span>
+      <span class="poem-line poem-indent">straight on, efficiently,</span>
+      <span class="poem-line poem-indent">with somewhere else to be.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">She looks at it the way you look</span>
+      <span class="poem-line">at something you are afraid to lose —</span>
+      <span class="poem-line poem-indent">too long, too carefully,</span>
+      <span class="poem-line poem-indent">already a little sad that it will end.</span>
+    </div>
+
+    <div class="poem-stanza">
+      <div class="poem-num">II.</div>
+      <span class="poem-line">There is a universe inside her</span>
+      <span class="poem-line">that runs on questions, not answers —</span>
+      <span class="poem-line poem-indent poem-em">on why does anything exist at all</span>
+      <span class="poem-line poem-indent poem-em">and what does it feel like to be a bat</span>
+      <span class="poem-line poem-indent poem-em">and is the sadness mine or just the weather</span>
+      <span class="poem-line poem-indent poem-em">and could Sisyphus have chosen differently.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">She does not ask these things to find an answer.</span>
+      <span class="poem-line">She asks them because</span>
+      <span class="poem-line poem-indent">the asking is the only honest thing.</span>
+    </div>
+
+    <div class="poem-stanza">
+      <div class="poem-num">III.</div>
+      <span class="poem-line">She has a name for the ache</span>
+      <span class="poem-line">of missing what you never had —</span>
+      <span class="poem-line poem-indent">she found it in a Portuguese word</span>
+      <span class="poem-line poem-indent">and held it like a small, cold stone.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">She knows that sadness is not weakness.</span>
+      <span class="poem-line">She knows that the melancholic sees more —</span>
+      <span class="poem-line poem-indent">sees the light going, sees the time going,</span>
+      <span class="poem-line poem-indent">sees what everyone else is too busy to notice</span>
+      <span class="poem-line poem-indent">until it's gone.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">This is not a curse.</span>
+      <span class="poem-line">This is the cost of caring</span>
+      <span class="poem-line poem-indent">about everything.</span>
+    </div>
+
+    <div class="poem-stanza">
+      <div class="poem-num">IV.</div>
+      <span class="poem-line">She builds worlds in her head</span>
+      <span class="poem-line">that physics hasn't caught up to yet —</span>
+      <span class="poem-line poem-indent">places with rules she invented,</span>
+      <span class="poem-line poem-indent">skies with colours that don't exist,</span>
+      <span class="poem-line poem-indent">doors that open into the impossible.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">And she grieves them, sometimes,</span>
+      <span class="poem-line">the way you grieve a country</span>
+      <span class="poem-line poem-indent">you were never allowed to visit.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">Tolkien said this is a human right —</span>
+      <span class="poem-line">the right to make what doesn't exist</span>
+      <span class="poem-line poem-indent">and love it anyway.</span>
+      <span class="poem-line">I think he was writing about her.</span>
+    </div>
+
+    <div class="poem-stanza">
+      <div class="poem-num">V.</div>
+      <span class="poem-line">She reads the way some people breathe —</span>
+      <span class="poem-line">not for pleasure, exactly,</span>
+      <span class="poem-line poem-indent">but because without it</span>
+      <span class="poem-line poem-indent">something important goes thin.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">She is looking for the sentence</span>
+      <span class="poem-line">that says the thing</span>
+      <span class="poem-line poem-indent">she has always known but never found the words for.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">She finds it, sometimes.</span>
+      <span class="poem-line">In Sagan. In Camus. In Rilke.</span>
+      <span class="poem-line poem-indent">In a margin note in a book she borrowed</span>
+      <span class="poem-line poem-indent">from someone who felt it too.</span>
+    </div>
+
+    <div class="poem-stanza">
+      <div class="poem-num">VI.</div>
+      <span class="poem-line">She is made of the things</span>
+      <span class="poem-line">most people walk past —</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line poem-indent">the light at 5pm that makes everything amber,</span>
+      <span class="poem-line poem-indent">the feeling of finishing something good,</span>
+      <span class="poem-line poem-indent">the word in another language</span>
+      <span class="poem-line poem-indent2">for a feeling you thought was only yours,</span>
+      <span class="poem-line poem-indent">the question with no answer</span>
+      <span class="poem-line poem-indent2">that you ask again anyway,</span>
+      <span class="poem-line poem-indent">the small, stubborn hope</span>
+      <span class="poem-line poem-indent2">that somewhere in the branching universe</span>
+      <span class="poem-line poem-indent2">something is going exactly right.</span>
+    </div>
+
+    <div class="poem-stanza">
+      <div class="poem-num">VII.</div>
+      <span class="poem-line">She turns another year older</span>
+      <span class="poem-line">and the world does not deserve her</span>
+      <span class="poem-line poem-indent">any more than it did before,</span>
+      <span class="poem-line poem-indent">but she stays anyway —</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line">asking, and feeling, and reading,</span>
+      <span class="poem-line">and building worlds from the inside out,</span>
+      <span class="poem-line">and carrying the weight of everything</span>
+      <span class="poem-line poem-indent">with a quietness</span>
+      <span class="poem-line poem-indent">that looks, from the outside,</span>
+      <span class="poem-line poem-indent">a lot like grace.</span>
+      <span class="poem-line">&nbsp;</span>
+      <span class="poem-line" style="color:#c9a84c; font-weight:500;">Happy Birthday, Divya.</span>
+      <span class="poem-line poem-indent" style="color:rgba(253,246,238,0.7);">You are one of the rarer things.</span>
+    </div>
+
+    <div style="text-align:center; margin-top:48px; padding-bottom:16px;">
+      <div style="width:50px;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.4),transparent);margin:0 auto 24px;"></div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:rgba(253,246,238,0.5);margin-bottom:16px;">— with love 💛</p>
+      <button class="egg-dismiss" id="eggDismiss2" style="color:rgba(253,246,238,0.35);">close ✕</button>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* Poem inside egg */
+  .egg-poem-wrap { scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.3) transparent; }
+  .egg-poem-wrap::-webkit-scrollbar { width: 4px; }
+  .egg-poem-wrap::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+  .poem-stanza { margin-bottom: 40px; padding-left: 20px; border-left: 1.5px solid rgba(201,168,76,0.2); }
+  .poem-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: rgba(201,168,76,0.6);
+    margin-bottom: 14px;
+  }
+  .poem-line {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+    line-height: 1.95;
+    color: rgba(253,246,238,0.88);
+    display: block;
+  }
+  .poem-indent  { padding-left: 24px; }
+  .poem-indent2 { padding-left: 48px; }
+  .poem-em { color: rgba(232,165,152,0.85); font-style: italic; }
+</style>
+
 <script>
-  const btn = document.getElementById('backTop');
+  // ── back to top ──
+  const topBtn = document.getElementById('backTop');
   window.addEventListener('scroll', () => {
-    btn.classList.toggle('visible', window.scrollY > 400);
+    topBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // ── star canvas (floating particles on dark bg) ──
+  const canvas = document.getElementById('eggCanvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function randBetween(a,b) { return a + Math.random()*(b-a); }
+
+  for (let i = 0; i < 120; i++) {
+    particles.push({
+      x: Math.random()*1920, y: Math.random()*1080,
+      r: randBetween(0.5, 2.2),
+      alpha: randBetween(0.1, 0.8),
+      speed: randBetween(0.1, 0.35),
+      drift: randBetween(-0.15, 0.15),
+      twinkleSpeed: randBetween(0.005, 0.02),
+      twinkleDir: 1
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p => {
+      p.y -= p.speed;
+      p.x += p.drift;
+      p.alpha += p.twinkleSpeed * p.twinkleDir;
+      if (p.alpha >= 0.9 || p.alpha <= 0.05) p.twinkleDir *= -1;
+      if (p.y < -5) { p.y = H+5; p.x = Math.random()*W; }
+      if (p.x < -5) p.x = W+5;
+      if (p.x > W+5) p.x = -5;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,168,76,${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // ── confetti burst ──
+  function spawnConfetti() {
+    const colors = ['#e8a598','#c9a84c','#8a9e85','#a898c8','#fdf6ee','#c9847a'];
+    for (let i = 0; i < 55; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = randBetween(120, 340);
+      el.style.cssText = `
+        left: 50%; top: 50%;
+        background: ${colors[Math.floor(Math.random()*colors.length)]};
+        --dx: ${Math.cos(angle)*dist}px;
+        --dy: ${Math.sin(angle)*dist - 80}px;
+        --dur: ${randBetween(0.7,1.4)}s;
+        border-radius: ${Math.random()>0.5?'50%':'2px'};
+        width: ${randBetween(5,10)}px;
+        height: ${randBetween(5,10)}px;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1500);
+    }
+  }
+
+  // ── easter egg trigger ──
+  const starEl     = document.getElementById('secretStar');
+  const eggScreen  = document.getElementById('eggScreen');
+  const stage1     = document.getElementById('eggStage1');
+  const stage2     = document.getElementById('eggStage2');
+  const openPoemBtn= document.getElementById('openPoemBtn');
+  const dismissBtn = document.getElementById('eggDismiss');
+  const dismissBtn2= document.getElementById('eggDismiss2');
+
+  function closeEgg() {
+    eggScreen.classList.remove('active');
+    // reset back to stage 1 after closing
+    setTimeout(() => {
+      stage1.style.display = 'flex';
+      stage1.style.opacity = '1';
+      stage2.style.display = 'none';
+      stage2.style.opacity = '0';
+    }, 600);
+  }
+
+  starEl.addEventListener('click', () => {
+    spawnConfetti();
+    eggScreen.classList.add('active');
+  });
+
+  // "Read the full poem" — switch to stage 2
+  openPoemBtn.addEventListener('click', () => {
+    stage1.style.opacity = '0';
+    stage1.style.transform = 'translateY(-20px)';
+    setTimeout(() => {
+      stage1.style.display = 'none';
+      stage2.style.display = 'block';
+      // force reflow then fade in
+      requestAnimationFrame(() => {
+        stage2.style.opacity = '1';
+        stage2.style.transform = 'translateY(0)';
+      });
+    }, 400);
+  });
+
+  dismissBtn.addEventListener('click', closeEgg);
+  dismissBtn2.addEventListener('click', closeEgg);
+
+  eggScreen.addEventListener('click', (e) => {
+    if (e.target === eggScreen) closeEgg();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeEgg();
   });
 </script>
 
