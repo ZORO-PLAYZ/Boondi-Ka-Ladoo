@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Divya</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap');
+
+    :root {
+      --cream: #fdf6ee;
+      --warm-white: #fffaf4;
+      --tan: #e8d5b7;
+      --dark-brown: #4a3728;
+      --muted-rose: #c9847a;
+      --soft-rose: #e8a598;
+      --text: #3a2e24;
+      --text-light: #7a6555;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Lora', serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── STARS BACKGROUND ── */
+    .stars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.35);
+      animation: twinkle var(--d) ease-in-out infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: 0.1; transform: scale(0.8); }
+      to   { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      position: relative; z-index: 1;
+      max-width: 680px;
+      width: 100%;
+      padding: 80px 32px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── TOP TAG ── */
+    .top-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--muted-rose);
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    /* ── TITLE ── */
+    .poem-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 700;
+      color: var(--dark-brown);
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+    .poem-title em { color: var(--muted-rose); font-style: italic; }
+
+    .poem-subtitle {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 60px; height: 1.5px;
+      background: linear-gradient(to right, transparent, var(--soft-rose), transparent);
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    /* ── POEM ── */
+    .poem {
+      width: 100%;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.9s;
+    }
+
+    .stanza {
+      margin-bottom: 48px;
+      padding-left: 24px;
+      border-left: 2px solid transparent;
+      transition: border-color 0.4s;
+    }
+    .stanza:hover { border-color: var(--soft-rose); }
+
+    .stanza-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted-rose);
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+
+    .line {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.05rem, 2.5vw, 1.22rem);
+      line-height: 1.95;
+      color: var(--dark-brown);
+      display: block;
+    }
+    .line em {
+      font-style: italic;
+      color: var(--muted-rose);
+    }
+    .line.indent { padding-left: 28px; }
+    .line.indent2 { padding-left: 52px; }
+
+    /* ── CLOSING ── */
+    .poem-close {
+      margin-top: 64px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.2s;
+    }
+    .close-divider {
+      width: 40px; height: 1.5px;
+      background: linear-gradient(to right, transparent, var(--tan), transparent);
+      margin: 0 auto 28px;
+    }
+    .close-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--text-light);
+      line-height: 1.7;
+      max-width: 420px;
+      margin: 0 auto 20px;
+    }
+    .close-from {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      margin-top: 52px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text-light);
+      text-decoration: none;
+      border: 1px solid var(--tan);
+      padding: 8px 20px;
+      border-radius: 20px;
+      transition: all 0.2s;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.4s;
+    }
+    .back-link:hover {
+      background: var(--soft-rose);
+      border-color: var(--soft-rose);
+      color: #fff;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .wrapper { padding: 60px 22px 80px; }
+      .stanza { padding-left: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<div class="wrapper">
+
+  <div class="top-tag">✦ written for her ✦</div>
+
+  <h1 class="poem-title">She Who Carries<br/><em>Infinite Things</em></h1>
+  <p class="poem-subtitle">a poem for Divya</p>
+
+  <div class="divider"></div>
+
+  <div class="poem">
+
+    <!-- I -->
+    <div class="stanza">
+      <div class="stanza-label">I.</div>
+      <span class="line">She does not look at the world the way</span>
+      <span class="line">the world expects to be looked at —</span>
+      <span class="line indent">straight on, efficiently,</span>
+      <span class="line indent">with somewhere else to be.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">She looks at it the way you look</span>
+      <span class="line">at something you are afraid to lose —</span>
+      <span class="line indent">too long, too carefully,</span>
+      <span class="line indent">already a little sad</span>
+      <span class="line indent">that it will end.</span>
+    </div>
+
+    <!-- II -->
+    <div class="stanza">
+      <div class="stanza-label">II.</div>
+      <span class="line">There is a universe inside her</span>
+      <span class="line">that runs on questions, not answers —</span>
+      <span class="line indent">on <em>why does anything exist at all</em></span>
+      <span class="line indent">and <em>what does it feel like to be a bat</em></span>
+      <span class="line indent">and <em>is the sadness mine or just the weather</em></span>
+      <span class="line indent">and <em>why does mathematics describe reality</em></span>
+      <span class="line indent">and <em>could Sisyphus have chosen differently.</em></span>
+      <span class="line">&nbsp;</span>
+      <span class="line">She does not ask these things to find an answer.</span>
+      <span class="line">She asks them because</span>
+      <span class="line indent">the asking is the only honest thing.</span>
+    </div>
+
+    <!-- III -->
+    <div class="stanza">
+      <div class="stanza-label">III.</div>
+      <span class="line">She has a name for the ache</span>
+      <span class="line">of missing what you never had —</span>
+      <span class="line indent">she found it in a Portuguese word</span>
+      <span class="line indent">and held it like a small, cold stone.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">She knows that sadness is not weakness.</span>
+      <span class="line">She knows that the melancholic sees more —</span>
+      <span class="line indent">sees the light going, sees the time going,</span>
+      <span class="line indent">sees what everyone else is too busy to notice</span>
+      <span class="line indent">until it's gone.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">This is not a curse.</span>
+      <span class="line">This is the cost of caring</span>
+      <span class="line indent">about everything.</span>
+    </div>
+
+    <!-- IV -->
+    <div class="stanza">
+      <div class="stanza-label">IV.</div>
+      <span class="line">She builds worlds in her head</span>
+      <span class="line">that physics hasn't caught up to yet —</span>
+      <span class="line indent">places with rules she invented,</span>
+      <span class="line indent">skies with colours that don't exist,</span>
+      <span class="line indent">doors that open into the impossible.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">And she grieves them, sometimes,</span>
+      <span class="line">the way you grieve a country</span>
+      <span class="line indent">you were never allowed to visit.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">Tolkien said this is a human right —</span>
+      <span class="line">the right to make what doesn't exist</span>
+      <span class="line indent">and love it anyway.</span>
+      <span class="line">I think he was writing about her.</span>
+    </div>
+
+    <!-- V -->
+    <div class="stanza">
+      <div class="stanza-label">V.</div>
+      <span class="line">She reads the way some people breathe —</span>
+      <span class="line">not for pleasure, exactly,</span>
+      <span class="line indent">but because without it</span>
+      <span class="line indent">something important goes thin.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">She is looking for the sentence</span>
+      <span class="line">that says the thing</span>
+      <span class="line indent">she has always known but never found the words for.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">She finds it, sometimes.</span>
+      <span class="line">In Sagan. In Camus. In Rilke.</span>
+      <span class="line indent">In a margin note in a book she borrowed</span>
+      <span class="line indent">from someone who felt it too.</span>
+    </div>
+
+    <!-- VI -->
+    <div class="stanza">
+      <div class="stanza-label">VI.</div>
+      <span class="line">She is made of the things</span>
+      <span class="line">most people walk past —</span>
+      <span class="line">&nbsp;</span>
+      <span class="line indent">the light at 5pm that makes everything amber,</span>
+      <span class="line indent">the feeling of finishing something good,</span>
+      <span class="line indent">the word in another language</span>
+      <span class="line indent2">for a feeling you thought was only yours,</span>
+      <span class="line indent">the question with no answer</span>
+      <span class="line indent2">that you ask again anyway,</span>
+      <span class="line indent">the small, stubborn hope</span>
+      <span class="line indent2">that somewhere in the branching universe</span>
+      <span class="line indent2">something is going exactly right.</span>
+    </div>
+
+    <!-- VII -->
+    <div class="stanza">
+      <div class="stanza-label">VII.</div>
+      <span class="line">She turns another year older</span>
+      <span class="line">and the world does not deserve her</span>
+      <span class="line indent">any more than it did before,</span>
+      <span class="line indent">but she stays anyway —</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">asking, and feeling, and reading,</span>
+      <span class="line">and building worlds from the inside out,</span>
+      <span class="line">and carrying the weight of everything</span>
+      <span class="line indent">with a quietness</span>
+      <span class="line indent">that looks, from the outside,</span>
+      <span class="line indent">a lot like grace.</span>
+      <span class="line">&nbsp;</span>
+      <span class="line">Happy Birthday, Divya.</span>
+      <span class="line indent">You are one of the rarer things.</span>
+    </div>
+
+  </div><!-- /poem -->
+
+  <div class="poem-close">
+    <div class="close-divider"></div>
+    <p class="close-quote">
+      "Not all those who wander are lost —<br/>
+      some are building entire universes<br/>
+      in the quiet of their own minds."
+    </p>
+    <p class="close-from">— with love 💛</p>
+  </div>
+
+  <a href="index.html" class="back-link">← back to your reading list</a>
+
+</div>
+
+<script>
+  // Generate twinkling stars
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 55; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1.5;
+    s.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      top: ${Math.random() * 100}%;
+      left: ${Math.random() * 100}%;
+      --d: ${(Math.random() * 3 + 2).toFixed(1)}s;
+      animation-delay: ${(Math.random() * 4).toFixed(1)}s;
+    `;
+    container.appendChild(s);
+  }
+</script>
+
+</body>
+</html>
