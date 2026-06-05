@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Achievement Unlocked — Divya</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8cc7a;
+      --gold-dark: #8a6e28;
+      --cream: #fdf6ee;
+      --dark: #0f0c0a;
+      --dark2: #1a1410;
+      --rose: #c9847a;
+      --text: #3a2e24;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      padding: 40px 20px 60px;
+    }
+
+    /* ── STARFIELD ── */
+    #starCanvas {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0;
+      width: 100%; max-width: 700px;
+    }
+
+    /* ── STAGE 1: MEDAL ── */
+    #stageMedal {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp 1s ease forwards 0.3s;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .achievement-tag {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0.8;
+    }
+
+    /* Medal SVG container */
+    .medal-wrap {
+      position: relative;
+      width: 200px; height: 240px;
+      margin-bottom: 32px;
+      cursor: pointer;
+    }
+
+    /* Ribbon */
+    .medal-ribbon {
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 80px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .ribbon-left, .ribbon-right {
+      width: 28px; height: 80px;
+      position: absolute; top: 0;
+    }
+    .ribbon-left {
+      left: 0;
+      background: linear-gradient(160deg, #c9847a 0%, #a86050 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+    }
+    .ribbon-right {
+      right: 0;
+      background: linear-gradient(160deg, #a86050 0%, #c9847a 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+    }
+    .ribbon-center {
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 8px; height: 80px;
+      background: linear-gradient(to bottom, #e8b0a0, #c9847a);
+      z-index: 1;
+    }
+
+    /* Medal disc */
+    .medal-disc {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        #8a6e28, #c9a84c, #e8cc7a, #f5e0a0,
+        #e8cc7a, #c9a84c, #8a6e28, #c9a84c,
+        #e8cc7a, #c9a84c, #8a6e28
+      );
+      display: flex; align-items: center; justify-content: center;
+      box-shadow:
+        0 0 0 4px rgba(201,168,76,0.3),
+        0 0 40px rgba(201,168,76,0.4),
+        0 0 80px rgba(201,168,76,0.15),
+        inset 0 0 30px rgba(0,0,0,0.3);
+      animation: medalGlow 3s ease-in-out infinite alternate;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .medal-disc:hover {
+      transform: translateX(-50%) scale(1.06) rotate(3deg);
+      box-shadow:
+        0 0 0 4px rgba(201,168,76,0.5),
+        0 0 60px rgba(201,168,76,0.6),
+        0 0 100px rgba(201,168,76,0.25),
+        inset 0 0 30px rgba(0,0,0,0.3);
+    }
+    @keyframes medalGlow {
+      from { box-shadow: 0 0 0 4px rgba(201,168,76,0.3), 0 0 40px rgba(201,168,76,0.4), 0 0 80px rgba(201,168,76,0.15), inset 0 0 30px rgba(0,0,0,0.3); }
+      to   { box-shadow: 0 0 0 6px rgba(201,168,76,0.5), 0 0 70px rgba(201,168,76,0.6), 0 0 120px rgba(201,168,76,0.3), inset 0 0 30px rgba(0,0,0,0.3); }
+    }
+
+    .medal-inner {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #2a2010, #1a1408);
+      border: 2px solid rgba(201,168,76,0.4);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 6px;
+    }
+
+    .medal-star-emoji {
+      font-size: 2.8rem;
+      filter: drop-shadow(0 0 10px rgba(201,168,76,0.8));
+      animation: starSpin 8s linear infinite;
+    }
+    @keyframes starSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .medal-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-light);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* Medal title */
+    .medal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700; color: var(--cream);
+      line-height: 1.2; margin-bottom: 12px;
+    }
+    .medal-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--rose), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .medal-sub {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.95rem; color: rgba(253,246,238,0.5);
+      line-height: 1.7; margin-bottom: 36px;
+      max-width: 400px;
+    }
+
+    /* Unlock btn */
+    .unlock-btn {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      color: var(--dark);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 15px 40px; border-radius: 40px;
+      border: none; cursor: pointer;
+      box-shadow: 0 8px 30px rgba(201,168,76,0.4);
+      transition: transform 0.25s, box-shadow 0.25s;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .unlock-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 40px rgba(201,168,76,0.6);
+    }
+
+    /* ── STAGE 2: CERTIFICATE ── */
+    #stageCert {
+      display: none; opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      width: 100%;
+    }
+    #stageCert.visible {
+      display: block; opacity: 1; transform: scale(1);
+    }
+
+    .cert {
+      background: linear-gradient(160deg, #fdf8f0 0%, #f5ead8 50%, #ede0c8 100%);
+      border-radius: 24px;
+      padding: 52px 48px 44px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(201,168,76,0.3);
+      box-shadow:
+        0 0 0 8px rgba(201,168,76,0.08),
+        0 0 0 16px rgba(201,168,76,0.04),
+        0 30px 80px rgba(0,0,0,0.5);
+    }
+
+    /* Corner ornaments */
+    .cert-corner {
+      position: absolute;
+      width: 70px; height: 70px;
+      font-size: 1.6rem;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(201,168,76,0.35);
+    }
+    .cert-corner.tl { top: 12px; left: 12px; }
+    .cert-corner.tr { top: 12px; right: 12px; transform: scaleX(-1); }
+    .cert-corner.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+    .cert-corner.br { bottom: 12px; right: 12px; transform: scale(-1); }
+
+    /* Gold border lines */
+    .cert::before {
+      content: '';
+      position: absolute; inset: 14px;
+      border: 1.5px solid rgba(201,168,76,0.25);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    .cert-header {
+      text-align: center; margin-bottom: 28px;
+    }
+    .cert-org {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold-dark); margin-bottom: 8px;
+    }
+    .cert-presents {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 1rem; color: #8a7040;
+    }
+
+    .cert-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px 0;
+    }
+    .cert-divider::before, .cert-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.4), transparent);
+    }
+    .cert-divider span { color: var(--gold); font-size: 0.9rem; }
+
+    .cert-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 700; font-style: italic;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.1; margin-bottom: 6px;
+      background: linear-gradient(135deg, #4a3728, #8a6e28, #4a3728);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cert-for {
+      text-align: center;
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.9rem; color: #8a7040;
+      margin-bottom: 28px;
+    }
+
+    /* Badges row */
+    .badges-row {
+      display: flex; gap: 16px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .badge {
+      background: linear-gradient(135deg, #fdf0e0, #f5e0c0);
+      border: 1.5px solid rgba(201,168,76,0.4);
+      border-radius: 50px;
+      padding: 10px 20px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 4px 12px rgba(201,168,76,0.15);
+    }
+    .badge-icon { font-size: 1.2rem; }
+    .badge-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--gold-dark);
+      line-height: 1.2;
+    }
+    .badge-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: rgba(138,110,40,0.6);
+    }
+
+    /* Citation */
+    .cert-citation {
+      background: rgba(201,168,76,0.08);
+      border-left: 3px solid rgba(201,168,76,0.4);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+    }
+    .cert-citation p {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.92rem; color: #6a5030;
+      line-height: 1.7;
+    }
+
+    /* Seal + signatures */
+    .cert-bottom {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .cert-seal {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #8a6e28, #c9a84c, #e8cc7a, #c9a84c, #8a6e28);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 20px rgba(201,168,76,0.4);
+      flex-shrink: 0;
+    }
+    .cert-seal-inner {
+      width: 74px; height: 74px; border-radius: 50%;
+      background: radial-gradient(circle, #fdf8f0, #f0e4c8);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .cert-seal-inner span:first-child { font-size: 1.6rem; }
+    .cert-seal-inner span:last-child {
+      font-family: 'Inter', sans-serif;
+      font-size: 7px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gold-dark); margin-top: 2px;
+    }
+
+    .cert-signatures { display: flex; gap: 32px; flex-wrap: wrap; }
+    .cert-sig { text-align: center; }
+    .cert-sig-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 1.1rem;
+      color: var(--text);
+      border-bottom: 1px solid rgba(74,55,40,0.2);
+      padding-bottom: 4px; margin-bottom: 4px;
+    }
+    .cert-sig-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(74,55,40,0.5);
+    }
+
+    .cert-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; color: rgba(74,55,40,0.4);
+      text-align: center; margin-top: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* Back link */
+    .back-link {
+      margin-top: 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; letter-spacing: 1px;
+      color: rgba(253,246,238,0.3);
+      text-decoration: none;
+      border: 1px solid rgba(253,246,238,0.1);
+      padding: 8px 20px; border-radius: 20px;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .back-link:hover { color: rgba(253,246,238,0.7); border-color: rgba(253,246,238,0.3); }
+
+    /* Confetti */
+    .confetti-piece {
+      position: fixed;
+      pointer-events: none; z-index: 9999;
+      animation: fall var(--dur) ease-in forwards;
+    }
+    @keyframes fall {
+      0%   { transform: translate(0,0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) rotate(720deg); opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .cert { padding: 40px 24px 32px; }
+      .cert-bottom { flex-direction: column; align-items: center; }
+      .cert-signatures { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+
+<div class="wrapper">
+
+  <!-- ═══ STAGE 1: MEDAL ═══ -->
+  <div id="stageMedal">
+    <div class="achievement-tag">✦ Achievement Unlocked ✦</div>
+
+    <div class="medal-wrap">
+      <!-- Ribbon -->
+      <div class="medal-ribbon">
+        <div class="ribbon-left"></div>
+        <div class="ribbon-center"></div>
+        <div class="ribbon-right"></div>
+      </div>
+      <!-- Disc -->
+      <div class="medal-disc">
+        <div class="medal-inner">
+          <span class="medal-star-emoji">✦</span>
+          <div class="medal-text">DIVYA<br/>MMXXVI</div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="medal-title">You are one of<br/><em>the rarer things</em></h1>
+    <p class="medal-sub">
+      You wandered far enough to find what most people walk past.<br/>
+      That's exactly the kind of person you are, Divya.
+    </p>
+
+    <button class="unlock-btn" id="unlockCert">
+      🏅 Claim your certificate
+    </button>
+  </div>
+
+  <!-- ═══ STAGE 2: CERTIFICATE ═══ -->
+  <div id="stageCert">
+    <div class="cert">
+      <!-- Corner ornaments -->
+      <div class="cert-corner tl">❧</div>
+      <div class="cert-corner tr">❧</div>
+      <div class="cert-corner bl">❧</div>
+      <div class="cert-corner br">❧</div>
+
+      <div class="cert-header">
+        <div class="cert-org">✦ The Order of Infinite Wonderers ✦</div>
+        <div class="cert-presents">hereby proudly presents this certificate of achievement to</div>
+      </div>
+
+      <div class="cert-divider"><span>✦</span></div>
+
+      <div class="cert-name">Divya</div>
+      <div class="cert-for">on this day, in the year of her birth celebrated</div>
+
+      <div class="badges-row">
+        <div class="badge">
+          <span class="badge-icon">🔍</span>
+          <div>
+            <div class="badge-label">The Curious One</div>
+            <div class="badge-sub">Found what most miss</div>
+          </div>
+        </div>
+        <div class="badge">
+          <span class="badge-icon">🌌</span>
+          <div>
+            <div class="badge-label">Chief Wonderer</div>
+            <div class="badge-sub">Wonders about everything</div>
+          </div>
+        </div>
+        <div class="badge">
+          <span class="badge-icon">⭐</span>
+          <div>
+            <div class="badge-label">One of the Rarer Things</div>
+            <div class="badge-sub">Irreplaceable & extraordinary</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-citation">
+        <p>
+          In recognition of her exceptional curiosity, her willingness to sit with hard questions,
+          her capacity to feel things deeply and beautifully, her habit of building impossible worlds
+          and loving them anyway — and for being the kind of person who scrolls all the way to the
+          bottom just to see what's there. This is exactly that quality. This is why she finds things
+          others don't.
+        </p>
+      </div>
+
+      <div class="cert-bottom">
+        <div class="cert-seal">
+          <div class="cert-seal-inner">
+            <span>✦</span>
+            <span>Official</span>
+          </div>
+        </div>
+
+        <div class="cert-signatures">
+          <div class="cert-sig">
+            <div class="cert-sig-name">The Universe</div>
+            <div class="cert-sig-title">Grantor of Rare Things</div>
+          </div>
+          <div class="cert-sig">
+            <div class="cert-sig-name">Your Best Friend</div>
+            <div class="cert-sig-title">Made this with love 💛</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-date">Issued on the occasion of Divya's Birthday · June 2026</div>
+    </div>
+
+    <div style="text-align:center; margin-top:28px;">
+      <a href="index.html" class="back-link">← back to your reading list</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── Starfield ──
+  const canvas = document.getElementById('starCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+
+  function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  for (let i = 0; i < 140; i++) {
+    stars.push({
+      x: Math.random()*2000, y: Math.random()*2000,
+      r: Math.random()*2+0.4,
+      a: Math.random()*0.8+0.1,
+      s: Math.random()*0.3+0.05,
+      td: 1, ts: Math.random()*0.012+0.004
+    });
+  }
+  function drawStars() {
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s => {
+      s.y -= s.s; s.a += s.ts * s.td;
+      if (s.a > 0.9 || s.a < 0.08) s.td *= -1;
+      if (s.y < -5) { s.y = H+5; s.x = Math.random()*W; }
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,168,76,${s.a})`; ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
+  // ── Confetti ──
+  function boom() {
+    const colors = ['#c9a84c','#e8cc7a','#c9847a','#e8a598','#8a9e85','#a898c8','#fdf6ee'];
+    for (let i = 0; i < 80; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      const angle = Math.random()*Math.PI*2;
+      const dist  = 150 + Math.random()*300;
+      const size  = 5 + Math.random()*8;
+      el.style.cssText = `
+        left:50%; top:40%;
+        width:${size}px; height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius:${Math.random()>.5?'50%':'3px'};
+        --dx:${Math.cos(angle)*dist}px;
+        --dy:${Math.sin(angle)*dist - 120}px;
+        --dur:${0.8+Math.random()*0.8}s;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1800);
+    }
+  }
+
+  // ── Stage switch ──
+  const btnUnlock = document.getElementById('unlockCert');
+  const stageMedal = document.getElementById('stageMedal');
+  const stageCert  = document.getElementById('stageCert');
+
+  btnUnlock.addEventListener('click', () => {
+    boom();
+    stageMedal.style.opacity = '0';
+    stageMedal.style.transform = 'scale(0.9) translateY(-20px)';
+    stageMedal.style.transition = 'all 0.5s ease';
+    setTimeout(() => {
+      stageMedal.style.display = 'none';
+      stageCert.style.display  = 'block';
+      requestAnimationFrame(() => {
+        stageCert.classList.add('visible');
+      });
+      boom();
+    }, 450);
+  });
+</script>
+
+</body>
+</html>
