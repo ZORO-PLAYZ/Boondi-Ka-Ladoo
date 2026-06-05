@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reads for Divya</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --cream: #fdf6ee;
+      --warm-white: #fffaf4;
+      --tan: #e8d5b7;
+      --brown: #8b6f47;
+      --dark-brown: #4a3728;
+      --soft-rose: #e8a598;
+      --muted-rose: #c9847a;
+      --text: #3a2e24;
+      --text-light: #7a6555;
+
+      --human:   #c9847a;
+      --human-bg: #fbeae6;
+      --mel:     #7070a8;
+      --mel-bg:  #e8e8f5;
+      --sci:     #4a7a5a;
+      --sci-bg:  #e4ede8;
+      --fan:     #7058a8;
+      --fan-bg:  #ece8f5;
+      --phi:     #8a7040;
+      --phi-bg:  #f5eedc;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--text); font-family: 'Lora', serif; }
+
+    /* ══════════════ NAV ══════════════ */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(253,246,238,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1.5px solid var(--tan);
+      padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      height: 58px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-style: italic;
+      color: var(--dark-brown); white-space: nowrap;
+    }
+    .nav-logo span { color: var(--muted-rose); }
+    .nav-links {
+      display: flex; align-items: center; gap: 4px;
+      list-style: none; overflow-x: auto;
+    }
+    .nav-links a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.76rem; font-weight: 500;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 5px 11px;
+      border-radius: 20px;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { background: var(--tan); color: var(--dark-brown); }
+
+    /* ══════════════ HERO ══════════════ */
+    .hero {
+      background: linear-gradient(160deg, #fdf0e0 0%, #f5e6d3 50%, #ecdcc8 100%);
+      padding: 100px 40px 80px;
+      text-align: center;
+      position: relative; overflow: hidden;
+      border-bottom: 2px solid var(--tan);
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -60px; left: -60px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(232,165,152,0.28) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -80px; right: -40px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(138,158,133,0.22) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      font-weight: 700; color: var(--dark-brown);
+      line-height: 1.2; margin-bottom: 16px;
+      position: relative; z-index: 1;
+    }
+    .hero h1 em { color: var(--muted-rose); font-style: italic; }
+    .hero-sub {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 1.05rem; color: var(--text-light);
+      max-width: 520px; margin: 0 auto 32px; line-height: 1.75;
+      position: relative; z-index: 1;
+    }
+    .hero-note {
+      display: inline-block;
+      background: rgba(255,255,255,0.72);
+      border-left: 3px solid var(--soft-rose);
+      padding: 13px 22px; border-radius: 0 12px 12px 0;
+      font-size: 0.92rem; color: var(--text-light); font-style: italic;
+      max-width: 490px; position: relative; z-index: 1;
+    }
+
+    /* ══════════════ TOPIC QUICK-NAV ══════════════ */
+    .quick-nav {
+      max-width: 900px; margin: 0 auto;
+      padding: 56px 24px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+    }
+    .qn-card {
+      background: var(--warm-white);
+      border: 1.5px solid #ecdccb;
+      border-radius: 16px;
+      padding: 18px 16px 16px;
+      text-decoration: none;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .qn-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(74,55,40,0.09); }
+    .qn-emoji { font-size: 1.8rem; display: block; margin-bottom: 8px; }
+    .qn-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem; color: var(--dark-brown); line-height: 1.3;
+    }
+    .qn-count {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--text-light); margin-top: 6px;
+    }
+
+    /* ══════════════ TOPIC SECTIONS ══════════════ */
+    .topic-section { padding: 80px 0 0; }
+    .topic-header {
+      max-width: 900px; margin: 0 auto 48px; padding: 0 24px;
+      display: flex; align-items: flex-start; gap: 20px;
+    }
+    .topic-icon {
+      width: 58px; height: 58px; border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; flex-shrink: 0;
+    }
+    .topic-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .topic-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700; color: var(--dark-brown);
+      line-height: 1.2; margin-bottom: 8px;
+    }
+    .topic-title em { font-style: italic; }
+    .topic-desc {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.95rem; color: var(--text-light); line-height: 1.65;
+    }
+    .topic-divider {
+      max-width: 900px; margin: 0 auto 48px; padding: 0 24px;
+    }
+    .topic-divider hr {
+      border: none; height: 1.5px;
+      background: linear-gradient(to right, var(--tan), transparent);
+    }
+    .personal-note-wrap {
+      max-width: 900px; margin: -24px auto 48px; padding: 0 24px;
+    }
+    .personal-note {
+      display: inline-block;
+      background: rgba(255,255,255,0.8);
+      border-left: 3px solid;
+      padding: 13px 20px; border-radius: 0 12px 12px 0;
+      font-size: 0.9rem; color: var(--text-light); font-style: italic;
+      line-height: 1.65;
+    }
+    .personal-note strong { font-style: normal; font-weight: 600; }
+
+    /* ══════════════ ARTICLES ══════════════ */
+    .articles-wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    .article {
+      background: var(--warm-white);
+      border-radius: 20px;
+      border: 1.5px solid #ecdccb;
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+    .article-header {
+      padding: 36px 42px 28px;
+      border-bottom: 1.5px solid #f0dfd0;
+    }
+    .article-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px; flex-wrap: wrap;
+    }
+    .article-type {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px;
+    }
+    .article-source {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; color: var(--text-light);
+    }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.35rem, 3vw, 1.9rem);
+      font-weight: 700; color: var(--dark-brown);
+      line-height: 1.3; margin-bottom: 8px;
+    }
+    .article-author {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; color: var(--text-light); font-style: italic;
+    }
+
+    .article-body { padding: 32px 42px; }
+    .article-body p {
+      font-size: 0.98rem; line-height: 1.88;
+      color: #4a3828; margin-bottom: 1.35em;
+    }
+    .article-body p:last-child { margin-bottom: 0; }
+
+    .pull-quote {
+      margin: 32px 0; padding: 22px 28px;
+      border-left: 4px solid;
+      border-radius: 0 12px 12px 0;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-style: italic;
+      color: var(--dark-brown); line-height: 1.6; margin-bottom: 0 !important;
+    }
+    .pull-quote cite {
+      display: block; font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; color: var(--text-light);
+      margin-top: 10px; font-style: normal;
+    }
+
+    .section-break {
+      display: flex; align-items: center; gap: 14px; margin: 28px 0;
+    }
+    .section-break::before, .section-break::after {
+      content: ''; flex: 1; height: 1px; background: var(--tan);
+    }
+    .section-break span { font-size: 0.9rem; }
+
+    h3.subhead {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-style: italic;
+      color: var(--dark-brown); margin-bottom: 12px;
+    }
+
+    .article-footer {
+      padding: 16px 42px 22px;
+      border-top: 1.5px solid #f0dfd0;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    .read-time {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; color: var(--text-light);
+    }
+    .divya-note {
+      font-family: 'Lora', serif;
+      font-size: 0.86rem; font-style: italic;
+    }
+
+    /* ══════════════ SECTION SEPARATOR ══════════════ */
+    .section-sep {
+      max-width: 900px; margin: 60px auto 0; padding: 0 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .section-sep::before, .section-sep::after {
+      content: ''; flex: 1; height: 1.5px;
+      background: linear-gradient(to right, transparent, var(--tan), transparent);
+    }
+    .section-sep span {
+      font-size: 1.2rem; color: var(--tan);
+    }
+
+    /* ══════════════ FOOTER ══════════════ */
+    footer {
+      text-align: center;
+      padding: 72px 24px 80px;
+      border-top: 2px solid var(--tan);
+      margin-top: 80px;
+      background: linear-gradient(to bottom, var(--cream), #f0e4d0);
+    }
+    .footer-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-style: italic;
+      color: var(--dark-brown); max-width: 500px;
+      margin: 0 auto 14px; line-height: 1.6;
+    }
+
+    /* ══════════════ TOPIC COLOURS ══════════════ */
+    /* Human */
+    #human .topic-icon   { background: var(--human-bg); }
+    #human .topic-label  { color: var(--human); }
+    #human .topic-title em { color: var(--human); }
+    #human .article-header { background: linear-gradient(to bottom, #fff3f0, var(--warm-white)); }
+    #human .article-type { background: var(--human-bg); color: var(--human); }
+    #human .pull-quote   { background: var(--human-bg); border-color: var(--human); }
+    #human .section-break span { color: var(--human); }
+    #human .divya-note   { color: var(--human); }
+    #human .personal-note { border-color: var(--human); }
+    #human .personal-note strong { color: var(--human); }
+
+    /* Melancholy */
+    #melancholy .topic-icon   { background: var(--mel-bg); }
+    #melancholy .topic-label  { color: var(--mel); }
+    #melancholy .topic-title em { color: var(--mel); }
+    #melancholy .article-header { background: linear-gradient(to bottom, #f5f5fc, var(--warm-white)); }
+    #melancholy .article-type { background: var(--mel-bg); color: var(--mel); }
+    #melancholy .pull-quote   { background: var(--mel-bg); border-color: var(--mel); }
+    #melancholy .section-break span { color: var(--mel); }
+    #melancholy .divya-note   { color: var(--mel); }
+    #melancholy .personal-note { border-color: var(--mel); }
+    #melancholy .personal-note strong { color: var(--mel); }
+
+    /* Science */
+    #science .topic-icon   { background: var(--sci-bg); }
+    #science .topic-label  { color: var(--sci); }
+    #science .topic-title em { color: var(--sci); }
+    #science .article-header { background: linear-gradient(to bottom, #f2f8f5, var(--warm-white)); }
+    #science .article-type { background: var(--sci-bg); color: var(--sci); }
+    #science .pull-quote   { background: var(--sci-bg); border-color: var(--sci); }
+    #science .section-break span { color: var(--sci); }
+    #science .divya-note   { color: var(--sci); }
+    #science .personal-note { border-color: var(--sci); }
+    #science .personal-note strong { color: var(--sci); }
+
+    /* Fantasy */
+    #fantasy .topic-icon   { background: var(--fan-bg); }
+    #fantasy .topic-label  { color: var(--fan); }
+    #fantasy .topic-title em { color: var(--fan); }
+    #fantasy .article-header { background: linear-gradient(to bottom, #f8f5fc, var(--warm-white)); }
+    #fantasy .article-type { background: var(--fan-bg); color: var(--fan); }
+    #fantasy .pull-quote   { background: var(--fan-bg); border-color: var(--fan); }
+    #fantasy .section-break span { color: var(--fan); }
+    #fantasy .divya-note   { color: var(--fan); }
+    #fantasy .personal-note { border-color: var(--fan); }
+    #fantasy .personal-note strong { color: var(--fan); }
+
+    /* Philosophy */
+    #philosophy .topic-icon   { background: var(--phi-bg); }
+    #philosophy .topic-label  { color: var(--phi); }
+    #philosophy .topic-title em { color: var(--phi); }
+    #philosophy .article-header { background: linear-gradient(to bottom, #faf8ee, var(--warm-white)); }
+    #philosophy .article-type { background: var(--phi-bg); color: var(--phi); }
+    #philosophy .pull-quote   { background: var(--phi-bg); border-color: var(--phi); }
+    #philosophy .section-break span { color: var(--phi); }
+    #philosophy .divya-note   { color: var(--phi); }
+    #philosophy .personal-note { border-color: var(--phi); }
+    #philosophy .personal-note strong { color: var(--phi); }
+
+    /* ══════════════ BACK TO TOP ══════════════ */
+    .back-top {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--dark-brown); color: #fff;
+      font-size: 1.1rem; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(74,55,40,0.25);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      text-decoration: none;
+    }
+    .back-top.visible { opacity: 1; pointer-events: all; }
+
+    /* ══════════════ RESPONSIVE ══════════════ */
+    @media (max-width: 640px) {
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .hero { padding: 70px 20px 60px; }
+      .topic-header { flex-direction: column; gap: 12px; }
+      .article-header, .article-body, .article-footer { padding-left: 22px; padding-right: 22px; }
+      .quick-nav { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <div class="nav-logo">reads for <span>divya</span></div>
+  <ul class="nav-links">
+    <li><a href="#human">🫀 Human</a></li>
+    <li><a href="#melancholy">🌧️ Melancholy</a></li>
+    <li><a href="#science">🔬 Science</a></li>
+    <li><a href="#fantasy">🌌 Fantasy</a></li>
+    <li><a href="#philosophy">🕯️ Philosophy</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero">
+  <h1>Reads for a Mind<br/>That Wonders <em>Everything</em></h1>
+  <p class="hero-sub">
+    A carefully chosen collection of articles, essays & ideas —
+    curated just for you, Divya, because your curiosity deserves a really good companion.
+  </p>
+  <div class="hero-note">
+    "Not all those who wander are lost — some are just in the middle of a really good article." 🍃
+  </div>
+</header>
+
+<!-- ══════════ QUICK NAV ══════════ -->
+<div class="quick-nav">
+  <a href="#human" class="qn-card">
+    <span class="qn-emoji">🫀</span>
+    <div class="qn-title">The Human Experience</div>
+    <div class="qn-count">3 reads</div>
+  </a>
+  <a href="#melancholy" class="qn-card">
+    <span class="qn-emoji">🌧️</span>
+    <div class="qn-title">Beautiful Melancholy</div>
+    <div class="qn-count">3 reads</div>
+  </a>
+  <a href="#science" class="qn-card">
+    <span class="qn-emoji">🔬</span>
+    <div class="qn-title">Science & Wonder</div>
+    <div class="qn-count">3 reads</div>
+  </a>
+  <a href="#fantasy" class="qn-card">
+    <span class="qn-emoji">🌌</span>
+    <div class="qn-title">Fantasy & The Impossible</div>
+    <div class="qn-count">2 reads</div>
+  </a>
+  <a href="#philosophy" class="qn-card">
+    <span class="qn-emoji">🕯️</span>
+    <div class="qn-title">Philosophical Ideas</div>
+    <div class="qn-count">3 reads</div>
+  </a>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 1 — THE HUMAN EXPERIENCE
+════════════════════════════════════════════ -->
+<section class="topic-section" id="human">
+  <div class="topic-header">
+    <div class="topic-icon">🫀</div>
+    <div>
+      <div class="topic-label">Topic One</div>
+      <div class="topic-title">The Human <em>Experience</em></div>
+      <div class="topic-desc">On living, feeling, and what it means to exist in this strange, beautiful world.</div>
+    </div>
+  </div>
+  <div class="topic-divider"><hr/></div>
+  <div class="personal-note-wrap">
+    <div class="personal-note">
+      <strong>A note before you read:</strong> These are the pieces I kept thinking about when I thought about you — the kind of writing that holds a mirror up and says, <em>"yes, this is what being alive feels like."</em> I hope they feel like company. 🌿
+    </div>
+  </div>
+  <div class="articles-wrap">
+
+    <!-- Article 1 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Essay</span>
+          <span class="article-source">· Seneca · 49 AD</span>
+        </div>
+        <div class="article-title">On the Shortness of Life — and What We Do With It</div>
+        <div class="article-author">Lucius Annaeus Seneca · De Brevitate Vitae</div>
+      </div>
+      <div class="article-body">
+        <p>It is not that we have a short time to live, but that we waste a great deal of it. Life is long enough, and a sufficiently generous amount has been given to us for the highest achievements if it were all well invested. But when it is wasted in heedless luxury and spent on no good activity, we are forced at last by death's final constraint to realize that it has passed away before we knew it was passing.</p>
+        <div class="pull-quote">
+          <p>"So it is — the life we receive is not short, but we make it so; we are not ill provided but use what we have wastefully."</p>
+          <cite>— Seneca, De Brevitate Vitae</cite>
+        </div>
+        <p>Everyone hustles his life along, and is troubled by a longing for the future and a weariness of the present. But the man who spends all his time on his own needs, who organizes every day as though it were his last, neither longs for nor fears the next day. What can give any man pleasure that he is not enjoying right now? Nothing — for we are always, always waiting for the real living to begin.</p>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">On busyness — and how it steals us from ourselves</h3>
+        <p>There is nothing the busy man is less busied with than living: there is nothing that is harder to learn. Reflect, then, on whether devoted men and women of ambition, who drag out their lives among meaningless tasks, are not in the same position as that person who spent every waking hour writing, dictating, listening, speaking — and never had time to live, only to exist at high speed.</p>
+        <p>Of all people, only those are at leisure who make time for philosophy — only those are really alive. They not only keep a good watch over their own lifetimes, but they annex every age to their own. All the years that have gone before are added to theirs.</p>
+        <div class="pull-quote">
+          <p>"Omnia, Lucili, aliena sunt, tempus tantum nostrum est."<br/><span style="font-size:0.9rem;font-style:normal;">Everything, Lucilius, belongs to others; time alone is ours.</span></p>
+          <cite>— Seneca, Letters</cite>
+        </div>
+        <p>The present moment always will have been. That is perhaps the strangest, most comforting thought Seneca gives us: whatever we live fully — truly, completely — cannot be taken away. It happened. It is permanent now. The only question is whether we will let enough of life happen to us before it ends.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~10 min read</span>
+        <span class="divya-note">For when you feel like time is running through your fingers ✨</span>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Long Read</span>
+          <span class="article-source">· Oliver Burkeman · 2021</span>
+        </div>
+        <div class="article-title">Why Time Feels Like It's Speeding Up — and How to Slow It Down</div>
+        <div class="article-author">Oliver Burkeman · Four Thousand Weeks</div>
+      </div>
+      <div class="article-body">
+        <p>There's a phenomenon that almost everyone notices, usually sometime in their thirties, that time seems to be accelerating. The years blur. Summers that once felt eternal now vanish in weeks. And the strange thing is that this isn't an illusion — it's a mathematical and psychological inevitability, baked into what it means to be a creature who experiences time.</p>
+        <p>When you are ten years old, a year is one tenth of your entire existence. It looms large, stretches wide. When you are forty, that same year is one fortieth of your life — proportionally tiny. This is the first, ruthlessly logical reason that childhood felt so vast and adulthood feels so compressed.</p>
+        <div class="pull-quote">
+          <p>"The most radical possible response to the brevity of life isn't to try to do more — it's to let yourself be more fully present in what you're already doing."</p>
+          <cite>— Oliver Burkeman, Four Thousand Weeks</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">Novelty is time's secret ingredient</h3>
+        <p>The brain doesn't record time in clock-ticks — it records memories, and memories are disproportionately formed during novel experiences. When everything is new, the brain is frantically taking notes. It lays down dense, detailed memory. When you look back, it feels long. Routine, by contrast, is nearly invisible to memory. A Wednesday in February, doing what you always do, leaves almost no trace.</p>
+        <p>The implication is almost too simple: the way to slow time is not to become more efficient. It is to do things for the first time. Every genuine novelty is the brain saying, <em>this matters, I'm writing this down.</em></p>
+        <div class="pull-quote">
+          <p>"A life of only familiar things is a life that memory barely notices. And a life that memory barely notices seems, looking back, to have barely happened."</p>
+          <cite>— Burkeman</cite>
+        </div>
+        <p>Presence — actual, phone-away, eyes-open presence — also thickens time. Not because the clock slows, but because you are actually inhabiting the moment instead of being halfway somewhere else. Most of us, most of the time, are somewhere else. The moment passes unoccupied. None of this is easy. But it is available. Right now, actually.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~12 min read</span>
+        <span class="divya-note">For slow Sunday mornings with chai ☕</span>
+      </div>
+    </article>
+
+    <!-- Article 3 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Personal Essay</span>
+          <span class="article-source">· James Baldwin · 1962</span>
+        </div>
+        <div class="article-title">A Letter to My Nephew — On Being Human in a World That Forgets You Are</div>
+        <div class="article-author">James Baldwin · The Fire Next Time, 1962</div>
+      </div>
+      <div class="article-body">
+        <p>I have begun this letter five times and torn it up five times. I keep seeing your face, which is also the face of your father and my brother. You were born where you were born and faced the future that you faced because you were black and for no other reason. The limits of your ambition were, thus, expected to be set forever.</p>
+        <div class="pull-quote">
+          <p>"Please try to remember that what they believe, as well as what they do and cause you to endure, does not testify to your inferiority but to their inhumanity and fear."</p>
+          <cite>— James Baldwin, The Fire Next Time</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">What it means to know who you are</h3>
+        <p>This is the crime of which I accuse my country and my countrymen — that they have destroyed and are destroying hundreds of thousands of lives and do not know it and do not want to know it. But you must know it. And knowing it — sitting with the knowledge without letting it break you — is perhaps the most specifically human thing there is. Animals flee pain. Humans carry it, examine it, write letters about it, and still somehow love each other across the distance of it.</p>
+        <div class="pull-quote">
+          <p>"We cannot be free until they are free."</p>
+          <cite>— James Baldwin</cite>
+        </div>
+        <p>Baldwin's letter is not about despair — though it knows despair intimately. It is about the extraordinary act of choosing to love in a world that gives you every reason not to. And it is about the even more extraordinary act of passing that capacity to love, intact and undiminished, to the next person — which is perhaps the whole point of being human, when you strip everything else away.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~14 min read</span>
+        <span class="divya-note">For when you want to feel deeply, fully, entirely human 🌿</span>
+      </div>
+    </article>
+
+  </div><!-- /articles-wrap -->
+</section>
+
+<div class="section-sep"><span>✦</span></div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 2 — BEAUTIFUL MELANCHOLY
+════════════════════════════════════════════ -->
+<section class="topic-section" id="melancholy">
+  <div class="topic-header">
+    <div class="topic-icon">🌧️</div>
+    <div>
+      <div class="topic-label">Topic Two</div>
+      <div class="topic-title">Beautiful <em>Melancholy</em></div>
+      <div class="topic-desc">For when sadness feels like poetry and longing has no name.</div>
+    </div>
+  </div>
+  <div class="topic-divider"><hr/></div>
+  <div class="personal-note-wrap">
+    <div class="personal-note">
+      <strong>A note before you read:</strong> I picked these because they don't try to fix sadness — they sit with it. They make it feel like something worth having, not something to get rid of. Read these slowly. 🌧️
+    </div>
+  </div>
+  <div class="articles-wrap">
+
+    <!-- Article 1 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Essay</span>
+          <span class="article-source">· Aeon Magazine</span>
+        </div>
+        <div class="article-title">Saudade — The Untranslatable Feeling of Longing for What May Never Have Been</div>
+        <div class="article-author">Aeon Magazine · Culture & Language</div>
+      </div>
+      <div class="article-body">
+        <p>There is a word in Portuguese — <em>saudade</em> — that has no clean equivalent in English, and that very absence says something important about the English-speaking world's discomfort with a particular kind of feeling: the deep, bittersweet longing for something or someone you love but may never have again. Or may never have had at all.</p>
+        <p>The word appears in the earliest Portuguese poetry, in fado music, in the work of Fernando Pessoa, who described it as "the love that remains after someone is gone." Others define it as nostalgia for what was never yours. The philosopher Agostinho da Silva called it a longing for the ideal — a perfection that reality never quite manages to deliver.</p>
+        <div class="pull-quote">
+          <p>"Saudade is not sadness. It is the memory of feeling, carrying itself forward into a present that cannot contain it."</p>
+          <cite>— Aeon Magazine</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">Why untranslatable feelings matter</h3>
+        <p>Languages carve up the emotional world differently. When a language has a word for something and another doesn't, it suggests that the speakers of that language noticed something the others didn't. The Japanese have <em>mono no aware</em> — the bittersweet awareness of impermanence. The Germans have <em>sehnsucht</em> — a deep longing for an alternative life, a road not taken.</p>
+        <p>These words matter because naming something is the first step toward not being consumed by it. When you have a word for a feeling, you know you are not alone in it. The word proves that someone, somewhere, felt this same shapeless ache — felt it so frequently and distinctly that they named it, passed the name on, and now it exists in the language like a small lighthouse in the fog.</p>
+        <div class="pull-quote">
+          <p>"In Portuguese there is a word — saudade — that I keep reaching for in English and finding nothing there. It is the feeling of missing what you love. Even while it is still present. Even if it never quite was."</p>
+          <cite>— adapted from various sources</cite>
+        </div>
+        <p>Perhaps the deepest comfort saudade offers is this: you are allowed to miss things. You are allowed to be moved by what is gone, or by what was never yours. The feeling is not a malfunction. It is proof that you loved something, or tried to. And that, the Portuguese seem to suggest, is enough.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~10 min read</span>
+        <span class="divya-note">For feelings you've had but couldn't name 🌙</span>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Essay</span>
+          <span class="article-source">· The School of Life</span>
+        </div>
+        <div class="article-title">In Praise of Melancholy — Why Sadness Makes Us More Human</div>
+        <div class="article-author">The School of Life · Philosophy</div>
+      </div>
+      <div class="article-body">
+        <p>We live in an age that is deeply, pathologically, almost violently optimistic. We are told, in a hundred ways, that happiness is the default human state, that sadness is a problem to be solved. Melancholy, in this framing, is a malfunction. A bug in the system.</p>
+        <p>But there is another view — far older, and perhaps far wiser — that says melancholy is not a bug at all. It is a feature. It is the mood of the person who has looked at life carefully and seen it clearly, with all its impermanence, its loss, its beauty and its waste. Melancholy is the emotional signature of depth.</p>
+        <div class="pull-quote">
+          <p>"Melancholy is not the same as depression. Depression wants nothing. Melancholy wants everything — and is sad because it cannot have it."</p>
+          <cite>— The School of Life</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">The intelligence of sadness</h3>
+        <p>The melancholic person is sitting with reality. They are not pretending that loss doesn't hurt, that time doesn't pass, that the things we love don't eventually leave us. They are refusing the comfortable lie. And in that refusal there is a kind of courage that the relentlessly cheerful person never has to summon.</p>
+        <p>The great art of the world is almost entirely made by melancholics. Music that makes you feel something real. Novels that stay with you. These things come from people who sat with difficulty long enough to understand it. The melancholic person is also, typically, kinder — because they know what it is to be sad, they recognize it in others.</p>
+        <div class="pull-quote">
+          <p>"The goal is not to eliminate melancholy but to let it speak — to hear what it is trying to say about what we love, what we've lost, and what we hope for."</p>
+          <cite>— The School of Life</cite>
+        </div>
+        <p>So if you are melancholic — if you feel things too deeply, notice too much, are moved by things that pass other people by — please understand: this is not a defect. It is a gift. A heavy one, sometimes. But a gift.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~11 min read</span>
+        <span class="divya-note">For when feeling too much feels like too much 💙</span>
+      </div>
+    </article>
+
+    <!-- Article 3 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Letter</span>
+          <span class="article-source">· Rainer Maria Rilke · 1903</span>
+        </div>
+        <div class="article-title">On Living the Questions — A Letter from Rilke</div>
+        <div class="article-author">Rainer Maria Rilke · Letters to a Young Poet, 1903</div>
+      </div>
+      <div class="article-body">
+        <p>You are so young; you stand before beginnings. I would like to beg you, dear friend, to have patience with everything unresolved in your heart and try to love the questions themselves as if they were locked rooms or books written in a very foreign language. Don't search for the answers, which could not be given to you now, because you would not be able to live them. And the point is, to live everything. Live the questions now. Perhaps then, someday far in the future, you will gradually, without even noticing it, live your way into the answer.</p>
+        <div class="pull-quote">
+          <p>"I would like to beg you to have patience with everything unresolved in your heart and to try to love the questions themselves."</p>
+          <cite>— Rainer Maria Rilke, Letters to a Young Poet</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">On sadness as a room that changes you</h3>
+        <p>Perhaps all the dragons in our lives are princesses who are only waiting to see us act, just once, with beauty and courage. Perhaps everything that frightens us is, in its deepest essence, something helpless that wants our love.</p>
+        <p>You mustn't be frightened if a sadness rises in front of you, larger than any you have ever seen. You must think that something is happening with you, that life has not forgotten you, that it holds you in its hand and will not let you fall. Why do you want to shut out of your life any agitation, any pain, any melancholy, since you really do not know what these states are working upon you?</p>
+        <div class="pull-quote">
+          <p>"The question, always, is not how to stop feeling sad. It is how to let sadness do its slow work, and trust that you will emerge from it knowing something you didn't know before."</p>
+          <cite>— after Rilke</cite>
+        </div>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~9 min read</span>
+        <span class="divya-note">For when you're in the middle of something you don't understand yet 🌧️</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<div class="section-sep"><span>✦</span></div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 3 — SCIENCE & WONDER
+════════════════════════════════════════════ -->
+<section class="topic-section" id="science">
+  <div class="topic-header">
+    <div class="topic-icon">🔬</div>
+    <div>
+      <div class="topic-label">Topic Three</div>
+      <div class="topic-title">Science & <em>Wonder</em></div>
+      <div class="topic-desc">When the universe feels too big, too strange, and too beautiful to ignore.</div>
+    </div>
+  </div>
+  <div class="topic-divider"><hr/></div>
+  <div class="personal-note-wrap">
+    <div class="personal-note">
+      <strong>A note before you read:</strong> These aren't textbook science — they're the moments when science crashes into awe. The kind of reads that make you stare at the ceiling afterward and think, <em>wait, but actually though</em>. 🔭
+    </div>
+  </div>
+  <div class="articles-wrap">
+
+    <!-- Article 1 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Landmark Essay</span>
+          <span class="article-source">· Eugene Wigner · 1960</span>
+        </div>
+        <div class="article-title">The Unreasonable Effectiveness of Mathematics in the Natural Sciences</div>
+        <div class="article-author">Eugene Wigner · Communications in Pure and Applied Mathematics, 1960</div>
+      </div>
+      <div class="article-body">
+        <p>There is a strange and somewhat frightening fact about the universe that most people never think about: mathematics works. Not just approximately — but with a precision that is almost grotesque. The same abstract structures that pure mathematicians invent in their heads — with no interest whatsoever in the physical world — turn out, again and again, to be exactly the right language for describing that world.</p>
+        <div class="pull-quote">
+          <p>"The miracle of the appropriateness of the language of mathematics for the formulation of the laws of physics is a wonderful gift which we neither understand nor deserve."</p>
+          <cite>— Eugene Wigner, 1960</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">Why this should astonish you</h3>
+        <p>Complex numbers were invented by mathematicians playing with the square roots of negative numbers — purely abstract, purely recreational. Centuries later, quantum mechanics discovered that complex numbers are not just useful — they are essential. You cannot write down the basic equations of quantum theory without them.</p>
+        <p>Riemann developed a new geometry in the 1850s, exploring curved spaces, for pure intellectual pleasure. No one thought it had anything to do with physics. Half a century later, Einstein needed exactly Riemann's geometry to describe the curvature of spacetime in general relativity. The fit was perfect.</p>
+        <div class="pull-quote">
+          <p>"It is not at all natural that 'laws of nature' exist, much less that man is able to discover them. The fact that this miracle occurs makes one wonder whether there is some deeper truth behind it all."</p>
+          <cite>— Wigner</cite>
+        </div>
+        <p>There is no answer at the end of this essay. That is what makes it so good. It is one of the rare pieces of scientific writing that is genuinely comfortable not knowing — that treats wonder as a conclusion, not a failure.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~13 min read</span>
+        <span class="divya-note">For ceiling-staring, universe-pondering evenings 🌌</span>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Philosophy of Mind</span>
+          <span class="article-source">· Thomas Nagel · 1974</span>
+        </div>
+        <div class="article-title">What Is It Like to Be a Bat?</div>
+        <div class="article-author">Thomas Nagel · The Philosophical Review, 1974</div>
+      </div>
+      <div class="article-body">
+        <p>Bats use echolocation to navigate. They emit high-frequency sounds, and the bouncing echoes give them a rich, detailed picture of their environment. Presumably, there is something it is like to be a bat experiencing echolocation. Some inner quality. Some sensation. But what? And more importantly — can we ever know?</p>
+        <div class="pull-quote">
+          <p>"An organism has conscious mental states if and only if there is something that it is like to be that organism — some subjective character of experience."</p>
+          <cite>— Thomas Nagel, 1974</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">The hard problem of consciousness</h3>
+        <p>I can imagine behaving as a bat behaves — hanging upside down, flying, catching insects with my mouth. But that is not the same as imagining what it is like to be a bat. I can imagine, from the outside, what a bat does. But I cannot access — even in imagination — the interior of bat experience. The "what it's like" of being a bat is, by definition, from the bat's point of view. And that point of view is inaccessible to me.</p>
+        <p>Nagel uses this to make a larger argument: even if we understood every neuron in a bat's brain, even if we mapped every electrical signal and chemical reaction, we would still not have explained the subjective character of bat experience. This is the "hard problem" of consciousness, and it applies to human consciousness too. Explaining why any of it is accompanied by experience — why there is something it is like to be you, reading this sentence, right now — is a problem that science, as currently practiced, doesn't have the tools to solve.</p>
+        <div class="pull-quote">
+          <p>"Read this one slowly. It will change the way you think about thinking."</p>
+          <cite>— a note for Divya</cite>
+        </div>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~14 min read</span>
+        <span class="divya-note">For questioning everything you think you know about minds 🦇</span>
+      </div>
+    </article>
+
+    <!-- Article 3 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Science Essay</span>
+          <span class="article-source">· Carl Sagan · 1994</span>
+        </div>
+        <div class="article-title">Pale Blue Dot — A Vision of the Human Future in Space</div>
+        <div class="article-author">Carl Sagan · Pale Blue Dot, 1994</div>
+      </div>
+      <div class="article-body">
+        <p>From this distant vantage point, the Earth might not seem of any particular interest. But for us, it's different. Consider again that dot. That's here. That's home. That's us. On it everyone you love, everyone you know, everyone you ever heard of, every human being who ever was, lived out their lives.</p>
+        <p>The aggregate of our joy and suffering, thousands of confident religions, ideologies, and economic doctrines, every hunter and forager, every hero and coward, every creator and destroyer of civilization, every king and peasant, every young couple in love, every mother and father, hopeful child — all lived there, on a mote of dust suspended in a sunbeam.</p>
+        <div class="pull-quote">
+          <p>"The Earth is a very small stage in a vast cosmic arena. Think of the rivers of blood spilled by all those generals and emperors so that, in glory and triumph, they could become the momentary masters of a fraction of a dot."</p>
+          <cite>— Carl Sagan, Pale Blue Dot, 1994</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">What the cosmos says about us</h3>
+        <p>Our planet is a lonely speck in the great enveloping cosmic dark. In our obscurity, in all this vastness, there is no hint that help will come from elsewhere to save us from ourselves. The Earth is the only world known so far to harbor life. There is nowhere else, at least in the near future, to which our species could migrate.</p>
+        <div class="pull-quote">
+          <p>"There is perhaps no better demonstration of the folly of human conceits than this distant image of our tiny world. To me, it underscores our responsibility to deal more kindly with one another."</p>
+          <cite>— Sagan</cite>
+        </div>
+        <p>Sagan wrote this after seeing a photograph taken of Earth from 6 billion kilometres away — a tiny, pale blue point of light in a ray of scattered sunlight. It remains one of the most beautiful and quietly devastating pieces of scientific writing ever produced.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~8 min read</span>
+        <span class="divya-note">For when you need perspective from 6 billion kilometres away 🌍</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<div class="section-sep"><span>✦</span></div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 4 — FANTASY & THE IMPOSSIBLE
+════════════════════════════════════════════ -->
+<section class="topic-section" id="fantasy">
+  <div class="topic-header">
+    <div class="topic-icon">🌌</div>
+    <div>
+      <div class="topic-label">Topic Four</div>
+      <div class="topic-title">Fantasy & <em>The Impossible</em></div>
+      <div class="topic-desc">For dreamers who love doors that stay closed — and imagine what's behind them anyway.</div>
+    </div>
+  </div>
+  <div class="topic-divider"><hr/></div>
+  <div class="personal-note-wrap">
+    <div class="personal-note">
+      <strong>A note before you read:</strong> These are for the part of you that builds entire worlds in your head and mourns that you can't visit them. The impossible is worth grieving. It means you imagined something beautiful. ✨
+    </div>
+  </div>
+  <div class="articles-wrap">
+
+    <!-- Article 1 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Essay</span>
+          <span class="article-source">· J.R.R. Tolkien · 1947</span>
+        </div>
+        <div class="article-title">On Fairy-Stories — Why Fantasy Is the Most Human Thing We Do</div>
+        <div class="article-author">J.R.R. Tolkien · Essays Presented to Charles Williams, 1947</div>
+      </div>
+      <div class="article-body">
+        <p>Fantasy is a natural human activity. It certainly does not destroy or even insult Reason; and it does not blunt the appetite for, nor obscure the perception of, scientific verity. On the contrary. The keener and the clearer is the reason, the better fantasy will it make.</p>
+        <p>Tolkien argues — with the patience and precision of a scholar who has spent his life thinking about this — that human beings are sub-creators. We are made in the image of a Creator, and what we inevitably do, what we cannot stop doing, is create. Stories. Worlds. Myths. The impulse to imagine things that don't exist is not childishness. It is the most distinctly human impulse there is.</p>
+        <div class="pull-quote">
+          <p>"Fantasy remains a human right: we make in our measure and in our derivative mode, because we are made: and not only made, but made in the image and likeness of a Maker."</p>
+          <cite>— J.R.R. Tolkien, On Fairy-Stories</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">On escape — and why it is not cowardice</h3>
+        <p>The motive of the prisoner is escape. The critics of Fantasy confuse this with the flight of the deserter. They are not the same. Fantasy is not the flight of someone who cannot face reality — it is the cry of someone who has faced it and decided, quite rightly, that reality is not the only thing worth living in.</p>
+        <div class="pull-quote">
+          <p>"The consolation of fairy-stories, the joy of the happy ending ... is not essentially 'escapist'. In its fairy-tale setting, it is a sudden glimpse of the underlying reality or truth."</p>
+          <cite>— Tolkien</cite>
+        </div>
+        <p>Read this and feel entirely, completely justified in every world you've ever built in your head.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~15 min read</span>
+        <span class="divya-note">For every impossible world you've ever mourned ✨</span>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Science + Wonder</span>
+          <span class="article-source">· Nautilus Magazine</span>
+        </div>
+        <div class="article-title">Many Worlds — How Quantum Physics Makes the Impossible Routine</div>
+        <div class="article-author">Nautilus Magazine · Science & Philosophy</div>
+      </div>
+      <div class="article-body">
+        <p>In 1957, a graduate student at Princeton named Hugh Everett III proposed something that sounded, at first, like science fiction. Every time a quantum event occurs — every time a particle is measured, every time a choice is made at the quantum level — the universe doesn't pick one outcome. It branches. Every possible outcome happens, in a separate branch of reality. All of them. Simultaneously. Forever.</p>
+        <div class="pull-quote">
+          <p>"The universe is not stranger than we suppose. It is stranger than we can suppose."</p>
+          <cite>— after J.B.S. Haldane</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">The fantasy that physics might make real</h3>
+        <p>In the Many-Worlds picture, there is a branch of reality where every decision you've ever made went differently. Where you took the other road. Where you said the thing you didn't say. These branches are not accessible to you — but they are, if the theory is correct, real. They exist. They happened.</p>
+        <p>For those who love fantasy — who have always felt that the worlds they imagine have some quality of reality — this is not just science. It is almost comfort. The worlds you imagine might not be so different from the worlds that physics says exist, out there in the branching structure of the quantum multiverse.</p>
+        <div class="pull-quote">
+          <p>"Reality at its smallest scales is not like anything you have ever seen. It does not follow the rules you grew up with. It is, in the most literal sense, fantastical."</p>
+          <cite>— Nautilus Magazine</cite>
+        </div>
+        <p>The impossible, it turns out, is only impossible at the scale we happen to live at. Zoom in far enough, and everything gets strange. The universe has been running on magic the whole time. We just couldn't see it.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~12 min read</span>
+        <span class="divya-note">For when physics starts sounding like fantasy 🌌</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<div class="section-sep"><span>✦</span></div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 5 — PHILOSOPHICAL IDEAS
+════════════════════════════════════════════ -->
+<section class="topic-section" id="philosophy">
+  <div class="topic-header">
+    <div class="topic-icon">🕯️</div>
+    <div>
+      <div class="topic-label">Topic Five</div>
+      <div class="topic-title">Philosophical <em>Ideas</em></div>
+      <div class="topic-desc">For minds that won't stop asking "but why?" even when it's 2am.</div>
+    </div>
+  </div>
+  <div class="topic-divider"><hr/></div>
+  <div class="personal-note-wrap">
+    <div class="personal-note">
+      <strong>A note before you read:</strong> I chose these because they don't give you answers — they give you better questions. And for someone like you, a really good question is worth more than a hundred easy answers. 🕯️
+    </div>
+  </div>
+  <div class="articles-wrap">
+
+    <!-- Article 1 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Philosophy</span>
+          <span class="article-source">· Albert Camus · 1942</span>
+        </div>
+        <div class="article-title">The Myth of Sisyphus — We Must Imagine Sisyphus Happy</div>
+        <div class="article-author">Albert Camus · Le Mythe de Sisyphe, 1942</div>
+      </div>
+      <div class="article-body">
+        <p>There is but one truly serious philosophical problem, and that is suicide. Judging whether life is or is not worth living amounts to answering the fundamental question of philosophy. Camus begins here — not to shock, but to be honest. If life has no inherent meaning, he asks, why do we bother? And his answer is one of the strangest and most beautiful in all of philosophy: because we must. And because, in the very act of continuing despite meaninglessness, we create something that looks an awful lot like dignity.</p>
+        <div class="pull-quote">
+          <p>"One must imagine Sisyphus happy."</p>
+          <cite>— Albert Camus, The Myth of Sisyphus, 1942</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">The boulder, the hill, and the choice</h3>
+        <p>Sisyphus is condemned by the gods to push a boulder up a hill for eternity. Each time he reaches the top, it rolls back down. He descends and begins again. Forever. Camus watches Sisyphus descend the hill — this is the moment that interests him. Because at that moment, Sisyphus sees his condition clearly. He knows there is no point. He knows the boulder will roll down again. He knows this will never end. And Camus says: at that moment, Sisyphus is superior to his fate.</p>
+        <div class="pull-quote">
+          <p>"The struggle itself toward the heights is enough to fill a man's heart. One must imagine Sisyphus happy."</p>
+          <cite>— Camus</cite>
+        </div>
+        <p>Meaning is not found, it is made. Not given to you by the universe, but asserted against the universe by you. Sisyphus doesn't find a reason to push the boulder. He becomes his own reason. And that, Camus says, is freedom. After you read this, notice how you feel the next time something feels pointless. Notice whether Sisyphus comes to mind.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~14 min read</span>
+        <span class="divya-note">For 2am questions that have no answers — except this one 🕯️</span>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Essay / Speech</span>
+          <span class="article-source">· David Foster Wallace · 2005</span>
+        </div>
+        <div class="article-title">This Is Water — On Living a Compassionate Life</div>
+        <div class="article-author">David Foster Wallace · Kenyon College Commencement Address, 2005</div>
+      </div>
+      <div class="article-body">
+        <p>There are these two young fish swimming along and they happen to meet an older fish swimming the other way, who nods at them and says "Morning, boys. How's the water?" And the two young fish swim on for a bit, and then eventually one of them looks over at the other and goes "What the hell is water?"</p>
+        <div class="pull-quote">
+          <p>"The most obvious, ubiquitous, important realities are often the ones that are hardest to see and talk about."</p>
+          <cite>— David Foster Wallace, This Is Water, 2005</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">The default setting</h3>
+        <p>Here is the thing: there is no such thing as not worshipping. Everybody worships. The only choice we get is what to worship. If you worship money and things, you will never have enough. Worship your body and you will always feel ugly. Worship power and you will end up feeling weak and afraid. The default setting of the human mind is self-centredness — not a moral failing, but a biological fact. The cars in the traffic jam are obstacles in <em>my</em> commute. The people in the queue are in <em>my</em> way.</p>
+        <div class="pull-quote">
+          <p>"Learning how to think really means learning how to exercise some control over how and what you think. It means being conscious enough to choose what you pay attention to."</p>
+          <cite>— Wallace</cite>
+        </div>
+        <p>But you can choose differently. You can, in the moment of most automatic reaction, pause. You can imagine that the slow driver in front of you has just come from the hospital. You can choose to see the person, not the obstacle. This is what Wallace calls "This Is Water." This — the conscious, daily effort to be present and kind and aware — is what it means to be educated. Not the degree. Not the facts. This. Reads in fifteen minutes. Lives in you for decades.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~15 min read</span>
+        <span class="divya-note">For when the mundane starts to feel unbearable — or beautiful 💛</span>
+      </div>
+    </article>
+
+    <!-- Article 3 -->
+    <article class="article">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="article-type">Philosophy</span>
+          <span class="article-source">· Simone de Beauvoir · 1947</span>
+        </div>
+        <div class="article-title">On Ambiguity — Why Freedom Is Frightening and Necessary</div>
+        <div class="article-author">Simone de Beauvoir · The Ethics of Ambiguity, 1947</div>
+      </div>
+      <div class="article-body">
+        <p>De Beauvoir begins with something that sounds small and becomes enormous: the problem of wanting things. Of being moved by beauty and not knowing what to do with that. Of desiring something larger than yourself and not knowing how to reach it. This, she says, is the fundamental condition of human freedom — and it is terrifying.</p>
+        <div class="pull-quote">
+          <p>"We are condemned to be free. And freedom is not a gift — it is a burden we must learn to carry with grace."</p>
+          <cite>— after Simone de Beauvoir</cite>
+        </div>
+        <div class="section-break"><span>✦</span></div>
+        <h3 class="subhead">The ethics of existing ambiguously</h3>
+        <p>De Beauvoir's great contribution is this: she takes the existentialist idea that existence has no inherent meaning, and instead of despairing, she asks what we owe each other in a meaningless world. And her answer is: everything. My freedom, she argues, is only real if yours is too. A freedom built on the oppression of others is not freedom — it is just another form of hiding from the responsibility of being free.</p>
+        <div class="pull-quote">
+          <p>"To will oneself free is also to will others free."</p>
+          <cite>— Simone de Beauvoir, The Ethics of Ambiguity</cite>
+        </div>
+        <p>The ambiguity of the title is this: human beings are both subjects and objects. Both free and constrained. Both reaching for the infinite and limited by the finite. De Beauvoir says: don't resolve this tension. Live in it. The ambiguity is not a problem. It is the condition. For a mind that won't stop asking "but why?" — this is the place to start.</p>
+      </div>
+      <div class="article-footer">
+        <span class="read-time">📖 ~13 min read</span>
+        <span class="divya-note">For the part of you that feels everything is both meaningful and meaningless at once 🕯️</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-quote">
+    "She is too fond of books, and it has turned her brain."
+    <br/><span style="font-size:0.85rem;color:var(--text-light);">— Louisa May Alcott (meant as a compliment, obviously)</span>
+  </div>
+  <p style="margin-top:20px;font-family:'Lora',serif;font-style:italic;color:var(--text-light);font-size:0.92rem;max-width:430px;margin-left:auto;margin-right:auto;line-height:1.75;">
+    This was made with love, for Divya — a mind that questions everything and feels everything deeply.
+    Keep reading. Keep wondering. 🌿
+  </p>
+  <p style="margin-top:16px;font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--text-light);letter-spacing:1px;">— Made with 💛 just for you</p>
+  <div style="font-size:1.4rem;margin-top:22px;">🌸 <span id="secretStar" class="secret-star" title="...">✦</span> 📖</div>
+</footer>
+
+<!-- Back to top -->
+<a href="#" class="back-top" id="backTop" title="Back to top">↑</a>
+
+<!-- ══════ SECRET EASTER EGG ══════ -->
+<style>
+  .secret-star {
+    display: inline-block;
+    font-size: 1rem;
+    color: var(--tan);
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.4s, transform 0.4s, text-shadow 0.4s;
+    margin: 0 4px;
+  }
+  .secret-star:hover {
+    color: #c9a84c;
+    transform: rotate(20deg) scale(1.4);
+    text-shadow: 0 0 10px rgba(201,168,76,0.5);
+  }
+
+  /* ── FULL SCREEN TAKEOVER ── */
+  #eggScreen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0f0c0a;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.8s ease;
+    overflow: hidden;
+    text-align: center;
+    padding: 32px;
+  }
+  #eggScreen.active {
+    opacity: 1; pointer-events: all;
+  }
+
+  /* Floating stars canvas */
+  #eggCanvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* Content */
+  .egg-content {
+    position: relative; z-index: 2;
+    max-width: 560px;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  #eggScreen.active .egg-content {
+    opacity: 1; transform: translateY(0);
+    transition: opacity 1s ease 0.6s, transform 1s ease 0.6s;
+  }
+
+  .egg-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: #c9a84c;
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+
+  .egg-big-star {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 20px;
+    animation: eggFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 18px rgba(201,168,76,0.6));
+  }
+  @keyframes eggFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%       { transform: translateY(-10px) rotate(8deg); }
+  }
+
+  .egg-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: #fdf6ee;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .egg-heading em {
+    font-style: italic;
+    background: linear-gradient(135deg, #e8a598, #c9a84c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .egg-sub {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(253,246,238,0.55);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  /* poem preview lines */
+  .egg-preview {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+  .egg-preview::before {
+    content: '"';
+    position: absolute; top: -10px; left: 14px;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; color: rgba(201,168,76,0.15);
+    line-height: 1;
+  }
+  .egg-preview-line {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.98rem;
+    font-style: italic;
+    color: rgba(253,246,238,0.8);
+    line-height: 1.9;
+    display: block;
+  }
+  .egg-preview-line.indent { padding-left: 24px; }
+
+  /* CTA button */
+  .egg-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #c9847a, #c9a84c);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 15px 36px;
+    border-radius: 40px;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(201,132,122,0.35);
+    transition: transform 0.25s, box-shadow 0.25s;
+    margin-bottom: 20px;
+  }
+  .egg-cta:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(201,132,122,0.5);
+  }
+  .egg-cta-arrow {
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+  }
+  .egg-cta:hover .egg-cta-arrow { transform: translateX(4px); }
+
+  .egg-dismiss {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(253,246,238,0.3);
+    background: none; border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+    margin-top: 4px;
+  }
+  .egg-dismiss:hover { color: rgba(253,246,238,0.6); }
+
+  /* confetti burst particles */
+  .confetti-piece {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 10000;
+    animation: confettiFall var(--dur) ease-in forwards;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translate(0,0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(720deg); opacity: 0; }
+  }
+</style>
+
+<!-- Full-screen egg takeover -->
+<div id="eggScreen">
+  <canvas id="eggCanvas"></canvas>
+
+  <!-- STAGE 1: Intro card -->
+  <div class="egg-content" id="eggStage1">
+    <div class="egg-eyebrow">✦ you found it ✦</div>
+    <span class="egg-big-star">✦</span>
+    <h2 class="egg-heading">Something was written<br/><em>just for you, Divya</em></h2>
+    <p class="egg-sub">Hidden at the bottom of everything.<br/>Waiting for someone curious enough to find it.</p>
+    <div class="egg-preview">
+      <span class="egg-preview-line">She does not look at the world the way</span>
+      <span class="egg-preview-line">the world expects to be looked at —</span>
+      <span class="egg-preview-line indent">straight on, efficiently,</span>
+      <span class="egg-preview-line indent">with somewhere else to be.</span>
+      <span class="egg-preview-line">&nbsp;</span>
+      <span class="egg-preview-line">She looks at it the way you look</span>
+      <span class="egg-preview-line">at something you are afraid to lose.</span>
+    </div>
+    <button class="egg-cta" id="openPoemBtn">
+      🏅 Claim your reward <span class="egg-cta-arrow">→</span>
+    </button>
+    <button class="egg-dismiss" id="eggDismiss">not now, close this</button>
+  </div>
+
+  <!-- STAGE 2: Medal + Certificate -->
+  <div class="egg-content egg-cert-wrap" id="eggStage2" style="display:none; max-width:660px; width:100%; overflow-y:auto; max-height:90vh; text-align:center; padding-right:4px;">
+
+    <!-- ── MEDAL ── -->
+    <div id="medalBlock">
+      <div class="egg-eyebrow" style="margin-bottom:20px;">🏅 Achievement Unlocked</div>
+
+      <div class="medal-wrap">
+        <div class="medal-ribbon">
+          <div class="ribbon-left"></div>
+          <div class="ribbon-center"></div>
+          <div class="ribbon-right"></div>
+        </div>
+        <div class="medal-disc">
+          <div class="medal-inner">
+            <span class="medal-star">✦</span>
+            <div class="medal-label">DIVYA<br/>MMXXVI</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="egg-heading" style="margin-bottom:10px;">You are one of<br/><em>the rarer things</em></h2>
+      <p class="egg-sub" style="margin-bottom:28px;">You wandered far enough to find what most people walk past.<br/>That's exactly the kind of person you are, Divya.</p>
+
+      <button class="egg-cta" id="claimCertBtn" style="margin:0 auto 0;">
+        📜 Claim your certificate <span class="egg-cta-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- ── CERTIFICATE (hidden until claimed) ── -->
+    <div id="certBlock" style="display:none; opacity:0; transform:scale(0.94); transition: opacity 0.6s ease, transform 0.6s ease; text-align:left;">
+      <div class="cert">
+        <div class="cert-corner tl">❧</div>
+        <div class="cert-corner tr">❧</div>
+        <div class="cert-corner bl">❧</div>
+        <div class="cert-corner br">❧</div>
+
+        <div style="text-align:center; margin-bottom:20px;">
+          <div class="cert-org">✦ The Order of Infinite Wonderers ✦</div>
+          <div class="cert-presents">hereby proudly presents this certificate of achievement to</div>
+        </div>
+
+        <div class="cert-divider"><span>✦</span></div>
+        <div class="cert-name">Divya</div>
+        <div class="cert-for">on the occasion of her birthday celebrated</div>
+
+        <div class="badges-row">
+          <div class="badge">
+            <span class="badge-icon">🔍</span>
+            <div>
+              <div class="badge-label">The Curious One</div>
+              <div class="badge-sub">Found what most miss</div>
+            </div>
+          </div>
+          <div class="badge">
+            <span class="badge-icon">🌌</span>
+            <div>
+              <div class="badge-label">Chief Wonderer</div>
+              <div class="badge-sub">Wonders about everything</div>
+            </div>
+          </div>
+          <div class="badge">
+            <span class="badge-icon">⭐</span>
+            <div>
+              <div class="badge-label">One of the Rarer Things</div>
+              <div class="badge-sub">Irreplaceable & extraordinary</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cert-citation">
+          <p>In recognition of her exceptional curiosity, her willingness to sit with hard questions,
+          her capacity to feel things deeply and beautifully, her habit of building impossible worlds
+          and loving them anyway — and for being the kind of person who scrolls all the way to the
+          bottom just to see what's there. That quality is exactly why she finds things others don't.</p>
+        </div>
+
+        <div class="cert-bottom">
+          <div class="cert-seal">
+            <div class="cert-seal-inner">
+              <span style="font-size:1.5rem;">✦</span>
+              <span style="font-family:'Inter',sans-serif;font-size:7px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a6e28;margin-top:2px;">Official</span>
+            </div>
+          </div>
+          <div class="cert-signatures">
+            <div class="cert-sig">
+              <div class="cert-sig-name">The Universe</div>
+              <div class="cert-sig-title">Grantor of Rare Things</div>
+            </div>
+            <div class="cert-sig">
+              <div class="cert-sig-name">Your Best Friend</div>
+              <div class="cert-sig-title">Made this with love 💛</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cert-date">Issued · June 2026 · on Divya's Birthday</div>
+      </div>
+
+      <div style="text-align:center; margin-top:20px;">
+        <button class="egg-dismiss" id="eggDismiss2" style="color:rgba(253,246,238,0.3);">close ✕</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+  .egg-cert-wrap { scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.3) transparent; }
+  .egg-cert-wrap::-webkit-scrollbar { width: 4px; }
+  .egg-cert-wrap::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+  /* ── Medal ── */
+  .medal-wrap {
+    position: relative; width: 190px; height: 230px;
+    margin: 0 auto 28px;
+  }
+  .medal-ribbon { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 78px; }
+  .ribbon-left, .ribbon-right { width: 28px; height: 78px; position: absolute; top: 0; }
+  .ribbon-left  { left:0;  background: linear-gradient(160deg,#c9847a,#a86050); clip-path: polygon(0 0,100% 0,100% 85%,50% 100%,0 85%); }
+  .ribbon-right { right:0; background: linear-gradient(160deg,#a86050,#c9847a); clip-path: polygon(0 0,100% 0,100% 85%,50% 100%,0 85%); }
+  .ribbon-center { position:absolute; top:0; left:50%; transform:translateX(-50%); width:8px; height:78px; background:linear-gradient(to bottom,#e8b0a0,#c9847a); z-index:1; }
+
+  .medal-disc {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 170px; height: 170px; border-radius: 50%;
+    background: conic-gradient(from 0deg, #8a6e28,#c9a84c,#e8cc7a,#f5e0a0,#e8cc7a,#c9a84c,#8a6e28,#c9a84c,#e8cc7a,#c9a84c,#8a6e28);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.3), 0 0 40px rgba(201,168,76,0.5), 0 0 80px rgba(201,168,76,0.2), inset 0 0 30px rgba(0,0,0,0.4);
+    animation: medalPulse 3s ease-in-out infinite alternate;
+  }
+  @keyframes medalPulse {
+    from { box-shadow: 0 0 0 4px rgba(201,168,76,0.3), 0 0 40px rgba(201,168,76,0.5), 0 0 80px rgba(201,168,76,0.2), inset 0 0 30px rgba(0,0,0,0.4); }
+    to   { box-shadow: 0 0 0 6px rgba(201,168,76,0.5), 0 0 70px rgba(201,168,76,0.7), 0 0 120px rgba(201,168,76,0.35), inset 0 0 30px rgba(0,0,0,0.4); }
+  }
+  .medal-inner {
+    width: 142px; height: 142px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #2a2010, #1a1408);
+    border: 2px solid rgba(201,168,76,0.35);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  }
+  .medal-star {
+    font-size: 2.6rem;
+    filter: drop-shadow(0 0 10px rgba(201,168,76,0.9));
+    animation: spinStar 8s linear infinite;
+    display: block;
+  }
+  @keyframes spinStar { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .medal-label {
+    font-family: 'Inter', sans-serif; font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: #e8cc7a; text-align: center; line-height: 1.6;
+  }
+
+  /* ── Certificate ── */
+  .cert {
+    background: linear-gradient(160deg, #fdf8f0, #f5ead8, #ede0c8);
+    border-radius: 20px; padding: 44px 40px 36px;
+    position: relative; overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.3);
+    box-shadow: 0 0 0 8px rgba(201,168,76,0.07), 0 0 0 16px rgba(201,168,76,0.03), 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .cert::before {
+    content: ''; position: absolute; inset: 12px;
+    border: 1.5px solid rgba(201,168,76,0.2); border-radius: 14px; pointer-events: none;
+  }
+  .cert-corner {
+    position: absolute; font-size: 1.4rem; color: rgba(201,168,76,0.3);
+    width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+  }
+  .cert-corner.tl{top:10px;left:10px;} .cert-corner.tr{top:10px;right:10px;transform:scaleX(-1);}
+  .cert-corner.bl{bottom:10px;left:10px;transform:scaleY(-1);} .cert-corner.br{bottom:10px;right:10px;transform:scale(-1);}
+  .cert-org { font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#8a6e28; margin-bottom:6px; }
+  .cert-presents { font-family:'Lora',serif; font-style:italic; font-size:0.9rem; color:#8a7040; }
+  .cert-divider { display:flex; align-items:center; gap:10px; margin:16px 0; }
+  .cert-divider::before,.cert-divider::after { content:''; flex:1; height:1px; background:linear-gradient(to right,transparent,rgba(201,168,76,0.4),transparent); }
+  .cert-divider span { color:#c9a84c; font-size:0.85rem; }
+  .cert-name {
+    font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.4rem);
+    font-weight:700; font-style:italic; text-align:center;
+    background:linear-gradient(135deg,#4a3728,#8a6e28,#4a3728);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:4px;
+  }
+  .cert-for { text-align:center; font-family:'Lora',serif; font-style:italic; font-size:0.85rem; color:#8a7040; margin-bottom:24px; }
+  .badges-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
+  .badge {
+    background:linear-gradient(135deg,#fdf0e0,#f5e0c0); border:1.5px solid rgba(201,168,76,0.4);
+    border-radius:50px; padding:9px 16px; display:flex; align-items:center; gap:8px;
+  }
+  .badge-icon { font-size:1.1rem; }
+  .badge-label { font-family:'Playfair Display',serif; font-size:0.8rem; font-weight:700; color:#8a6e28; line-height:1.2; }
+  .badge-sub { font-family:'Inter',sans-serif; font-size:0.65rem; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:rgba(138,110,40,0.6); }
+  .cert-citation {
+    background:rgba(201,168,76,0.08); border-left:3px solid rgba(201,168,76,0.35);
+    border-radius:0 10px 10px 0; padding:14px 18px; margin-bottom:28px;
+  }
+  .cert-citation p { font-family:'Lora',serif; font-style:italic; font-size:0.88rem; color:#6a5030; line-height:1.7; }
+  .cert-bottom { display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .cert-seal {
+    width:82px; height:82px; border-radius:50%; flex-shrink:0;
+    background:conic-gradient(from 0deg,#8a6e28,#c9a84c,#e8cc7a,#c9a84c,#8a6e28);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 18px rgba(201,168,76,0.4);
+  }
+  .cert-seal-inner {
+    width:68px; height:68px; border-radius:50%;
+    background:radial-gradient(circle,#fdf8f0,#f0e4c8);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border:1px solid rgba(201,168,76,0.3);
+  }
+  .cert-signatures { display:flex; gap:28px; flex-wrap:wrap; }
+  .cert-sig { text-align:center; }
+  .cert-sig-name { font-family:'Playfair Display',serif; font-style:italic; font-size:1rem; color:#3a2e24; border-bottom:1px solid rgba(74,55,40,0.2); padding-bottom:3px; margin-bottom:4px; }
+  .cert-sig-title { font-family:'Inter',sans-serif; font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:rgba(74,55,40,0.45); }
+  .cert-date { font-family:'Inter',sans-serif; font-size:0.72rem; color:rgba(74,55,40,0.35); text-align:center; margin-top:18px; letter-spacing:1px; }
+
+  @media(max-width:500px){
+    .cert{padding:32px 20px 28px;}
+    .cert-bottom{flex-direction:column;align-items:center;}
+    .cert-signatures{justify-content:center;}
+    .badges-row{gap:8px;}
+  }
+</style>
+
+<script>
+  // ── back to top ──
+  const topBtn = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    topBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // ── star canvas (floating particles on dark bg) ──
+  const canvas = document.getElementById('eggCanvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function randBetween(a,b) { return a + Math.random()*(b-a); }
+
+  for (let i = 0; i < 120; i++) {
+    particles.push({
+      x: Math.random()*1920, y: Math.random()*1080,
+      r: randBetween(0.5, 2.2),
+      alpha: randBetween(0.1, 0.8),
+      speed: randBetween(0.1, 0.35),
+      drift: randBetween(-0.15, 0.15),
+      twinkleSpeed: randBetween(0.005, 0.02),
+      twinkleDir: 1
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p => {
+      p.y -= p.speed;
+      p.x += p.drift;
+      p.alpha += p.twinkleSpeed * p.twinkleDir;
+      if (p.alpha >= 0.9 || p.alpha <= 0.05) p.twinkleDir *= -1;
+      if (p.y < -5) { p.y = H+5; p.x = Math.random()*W; }
+      if (p.x < -5) p.x = W+5;
+      if (p.x > W+5) p.x = -5;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,168,76,${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // ── confetti burst ──
+  function spawnConfetti() {
+    const colors = ['#e8a598','#c9a84c','#8a9e85','#a898c8','#fdf6ee','#c9847a'];
+    for (let i = 0; i < 55; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = randBetween(120, 340);
+      el.style.cssText = `
+        left: 50%; top: 50%;
+        background: ${colors[Math.floor(Math.random()*colors.length)]};
+        --dx: ${Math.cos(angle)*dist}px;
+        --dy: ${Math.sin(angle)*dist - 80}px;
+        --dur: ${randBetween(0.7,1.4)}s;
+        border-radius: ${Math.random()>0.5?'50%':'2px'};
+        width: ${randBetween(5,10)}px;
+        height: ${randBetween(5,10)}px;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1500);
+    }
+  }
+
+  // ── easter egg trigger ──
+  const starEl     = document.getElementById('secretStar');
+  const eggScreen  = document.getElementById('eggScreen');
+  const stage1     = document.getElementById('eggStage1');
+  const stage2     = document.getElementById('eggStage2');
+  const openPoemBtn= document.getElementById('openPoemBtn');
+  const dismissBtn = document.getElementById('eggDismiss');
+  const dismissBtn2= document.getElementById('eggDismiss2');
+
+  function closeEgg() {
+    eggScreen.classList.remove('active');
+    // reset back to stage 1 after closing
+    setTimeout(() => {
+      stage1.style.display = 'flex';
+      stage1.style.opacity = '1';
+      stage2.style.display = 'none';
+      stage2.style.opacity = '0';
+    }, 600);
+  }
+
+  starEl.addEventListener('click', () => {
+    spawnConfetti();
+    eggScreen.classList.add('active');
+  });
+
+  // "Show the certificate" button inside stage 2
+  const claimCertBtn = document.getElementById('claimCertBtn');
+  if (claimCertBtn) {
+    claimCertBtn.addEventListener('click', () => {
+      spawnConfetti();
+      const medalBlock = document.getElementById('medalBlock');
+      const certBlock  = document.getElementById('certBlock');
+      medalBlock.style.opacity    = '0';
+      medalBlock.style.transform  = 'scale(0.9)';
+      medalBlock.style.transition = 'all 0.4s ease';
+      setTimeout(() => {
+        medalBlock.style.display = 'none';
+        certBlock.style.display  = 'block';
+        requestAnimationFrame(() => {
+          certBlock.style.opacity   = '1';
+          certBlock.style.transform = 'scale(1)';
+        });
+        spawnConfetti();
+      }, 380);
+    });
+  }
+
+  // "See the medal" — switch to stage 2
+  openPoemBtn.addEventListener('click', () => {
+    stage1.style.opacity = '0';
+    stage1.style.transform = 'translateY(-20px)';
+    setTimeout(() => {
+      stage1.style.display = 'none';
+      stage2.style.display = 'block';
+      requestAnimationFrame(() => {
+        stage2.style.opacity = '1';
+        stage2.style.transform = 'translateY(0)';
+      });
+    }, 400);
+  });
+
+  dismissBtn.addEventListener('click', closeEgg);
+  dismissBtn2.addEventListener('click', closeEgg);
+
+  eggScreen.addEventListener('click', (e) => {
+    if (e.target === eggScreen) closeEgg();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeEgg();
+  });
+</script>
+
+</body>
+</html>
